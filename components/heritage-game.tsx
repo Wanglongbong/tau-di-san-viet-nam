@@ -88,7 +88,7 @@ const copy = {
     introTitleA: "Đi qua Việt Nam.",
     introTitleB: "Lắng nghe điều còn ở lại.",
     introBody: "Đứng trong một toa tàu, mở năm cánh cửa và chạm vào những ký ức đang được truyền từ người sang người. Mọi câu chuyện đều đi cùng nguồn.",
-    start: "Bước vào khoang tàu",
+    start: "Bắt đầu hành trình",
     instruction: "Di chuột gần một vật để đánh thức câu chuyện",
     explored: "đã mở",
     archive: "Sổ di sản",
@@ -125,13 +125,13 @@ const copy = {
     suggestions: "Gợi ý để hỏi từ hồ sơ",
     carriageKicker: "KHOANG 01 · TÀU BẮC — NAM",
     conductor: "NHÂN VIÊN SOÁT VÉ",
-    conductorQuestion: "Bạn muốn đến ga nào?",
-    conductorBody: "Hãy nói tên một trong năm điểm đến. Trưởng tàu sẽ nghe trong tối đa 6 giây rồi đối chiếu đúng tên ga — không lưu bản ghi giọng nói.",
-    mockConductorBody: "Bản demo đang dùng API giọng nói mô phỏng: micro vẫn ghi tối đa 6 giây để trình diễn luồng trải nghiệm, nhưng âm thanh không được phân tích. Kết quả mẫu sẽ đưa bạn đến Huế.",
+    conductorQuestion: "Chào mừng bạn lên tàu. Vé của bạn sẽ đi đến ga nào?",
+    conductorBody: "Hãy nói tên một trong năm điểm đến. Tôi sẽ đối chiếu tên ga trong tối đa 6 giây và không lưu bản ghi.",
+    mockConductorBody: "Bản demo dùng giọng nói mô phỏng. Bạn vẫn có thể nói để nhập vai; vé mẫu sẽ đưa bạn đến Huế.",
     mockBadge: "VOICE API · MÔ PHỎNG",
     mockResult: "KẾT QUẢ MẪU · ÂM THANH KHÔNG ĐƯỢC PHÂN TÍCH",
-    micStart: "Chạm để nói",
-    micStop: "Chạm để gửi",
+    micStart: "Nói điểm đến",
+    micStop: "Gửi lời thoại",
     listening: "Đang nghe…",
     transcribing: "Đang nhận diện điểm đến…",
     mockTranscribing: "Đang chạy API mô phỏng…",
@@ -144,7 +144,7 @@ const copy = {
     micUnsupported: "Trình duyệt này chưa hỗ trợ ghi âm. Bạn vẫn có thể chọn ga bên dưới.",
     micError: "Chưa gửi được giọng nói. Hãy thử lại hoặc chọn ga bên dưới.",
     micLarge: "Bản ghi vượt quá 3 MB. Hãy thử lại với câu ngắn hơn.",
-    chooseInstead: "Hoặc chọn vé trực tiếp",
+    chooseInstead: "Hoặc chọn một vé",
     privacy: "Âm thanh chỉ được gửi để nhận diện ga, không được lưu trong Sổ di sản.",
     mockPrivacy: "Bản ghi demo chỉ được kiểm tra định dạng rồi bỏ; không phân tích nội dung và không lưu.",
     backLanding: "Về trang đầu",
@@ -159,7 +159,7 @@ const copy = {
     introTitleA: "Cross Viet Nam.",
     introTitleB: "Listen to what remains.",
     introBody: "Stand inside a train carriage, open five doors and touch memories passed from person to person. Every story travels with its source.",
-    start: "Enter the carriage",
+    start: "Begin the journey",
     instruction: "Move close to an object to wake its story",
     explored: "opened",
     archive: "Heritage journal",
@@ -196,13 +196,13 @@ const copy = {
     suggestions: "Questions grounded in this record",
     carriageKicker: "CARRIAGE 01 · NORTH — SOUTH",
     conductor: "TICKET CONDUCTOR",
-    conductorQuestion: "Where would you like to go?",
-    conductorBody: "Say one of the five destinations. The conductor listens for up to 6 seconds and matches only the station name — the voice recording is not kept.",
-    mockConductorBody: "This demo uses a mock voice API: the microphone still records for up to 6 seconds to demonstrate the flow, but the audio is not analysed. The sample result will take you to Huế.",
+    conductorQuestion: "Welcome aboard. Which station should I write on your ticket?",
+    conductorBody: "Say one of the five destinations. I will match the station name within 6 seconds and will not retain the recording.",
+    mockConductorBody: "This demo uses a mock voice flow. You can still speak in character; the sample ticket will take you to Huế.",
     mockBadge: "VOICE API · MOCK",
     mockResult: "SAMPLE RESULT · AUDIO WAS NOT ANALYSED",
-    micStart: "Tap to speak",
-    micStop: "Tap to send",
+    micStart: "Say your destination",
+    micStop: "Send dialogue",
     listening: "Listening…",
     transcribing: "Recognising your destination…",
     mockTranscribing: "Running the mock API…",
@@ -215,7 +215,7 @@ const copy = {
     micUnsupported: "Audio recording is not supported here. You can still choose a station below.",
     micError: "The voice request could not be sent. Try again or choose a station below.",
     micLarge: "The recording is over 3 MB. Please try a shorter request.",
-    chooseInstead: "Or choose a ticket directly",
+    chooseInstead: "Or choose a ticket",
     privacy: "Audio is sent only to recognise a station and is not stored in your heritage journal.",
     mockPrivacy: "The demo recording is checked only for file validity, then discarded; its content is not analysed or stored.",
     backLanding: "Back to the opening",
@@ -709,7 +709,7 @@ export function HeritageGame({ voiceApiMode = "mock" }: { voiceApiMode?: "mock" 
       setStopIndex(index);
       setPhase("heritage");
       travelTimerRef.current = null;
-    }, 2_700);
+    }, 3_150);
   }
 
   function resetToLanding() {
@@ -838,24 +838,24 @@ export function HeritageGame({ voiceApiMode = "mock" }: { voiceApiMode?: "mock" 
 
 function Intro({ language, onLanguage, onStart }: { language: Language; onLanguage: (language: Language) => void; onStart: () => void }) {
   const ui = copy[language];
-  return <div className="intro-screen">
-    <div className="intro-noise" />
+  return <section className="intro-screen" aria-labelledby="intro-title">
+    <Image className="intro-cover-image" src="/og.png" alt="" fill priority unoptimized sizes="100vw" aria-hidden="true" />
+    <div className="intro-noise" aria-hidden="true" />
     <div className="intro-brand"><span>T</span><b>{ui.brand}</b></div>
+    <div className="intro-language intro-language-top" aria-label={language === "vi" ? "Chọn ngôn ngữ" : "Choose language"}>
+      <button className={language === "vi" ? "active" : ""} aria-pressed={language === "vi"} onClick={() => onLanguage("vi")}>VI</button>
+      <button className={language === "en" ? "active" : ""} aria-pressed={language === "en"} onClick={() => onLanguage("en")}>EN</button>
+    </div>
     <div className="intro-copy">
       <span className="intro-kicker"><i /> {ui.introKicker}</span>
-      <h1>{ui.introTitleA}<br /><em>{ui.introTitleB}</em></h1>
+      <h1 id="intro-title" className="sr-only">{ui.introTitleA} {ui.introTitleB}</h1>
       <p>{ui.introBody}</p>
       <div className="intro-actions">
         <button onClick={onStart}>{ui.start}<span>→</span></button>
-        <div className="intro-language"><button className={language === "vi" ? "active" : ""} onClick={() => onLanguage("vi")}>VI</button><button className={language === "en" ? "active" : ""} onClick={() => onLanguage("en")}>EN</button></div>
       </div>
     </div>
-    <div className="intro-train-art" aria-hidden="true">
-      <Image className="intro-train-sprite" src="/train/heritage-express.webp" alt="" width={2086} height={218} priority unoptimized />
-      <div className="ticket"><small>{ui.board}</small><b>HÀ NỘI</b><i /> <b>SÀI GÒN</b><span>05 GA · 1,726 KM</span></div>
-    </div>
     <div className="intro-source"><span>●</span> 05 UNESCO FILES <i /> 15 VERIFIED RECORDS <i /> NO CULTURAL FABRICATION</div>
-  </div>;
+  </section>;
 }
 
 function Carriage({
@@ -1004,35 +1004,26 @@ function Carriage({
 
   const resultCopy = resultStatus === "matched" ? ui.matched : resultStatus === "ambiguous" ? ui.ambiguous : resultStatus === "no-match" ? ui.noMatch : "";
 
-  return <section className="carriage-screen" aria-labelledby="carriage-title">
+  return <section className="carriage-screen" aria-labelledby="carriage-title" aria-busy={processing}>
+    <div className="carriage-stage" aria-hidden="true">
+      <Image className="carriage-backdrop" src="/train/heritage-carriage.webp" alt="" fill priority unoptimized sizes="100vw" />
+      <span className="carriage-light-sweep" />
+      <span className="carriage-vignette" />
+      <Image className="conductor-character" src="/characters/ticket-conductor-v2.png" alt="" width={887} height={1774} priority unoptimized />
+    </div>
     <div className="carriage-toolbar">
       <button className="carriage-brand" onClick={onBack}><span>T</span><b>{ui.brand}</b></button>
       <div><button onClick={onToggleMuted} aria-label={muted ? ui.unmute : ui.mute}>{muted ? "◌" : "♪"}</button><button onClick={() => onLanguage(language === "vi" ? "en" : "vi")}>{language === "vi" ? "EN" : "VI"}</button></div>
     </div>
-    <div className="carriage-visual" aria-hidden="true">
-      <Image className="carriage-backdrop" src="/train/heritage-carriage.webp" alt="" fill priority unoptimized sizes="(max-width: 860px) 100vw, 46vw" />
-      <span className="carriage-light-sweep" />
-      <div className="pixel-conductor">
-        <span className="conductor-shadow" />
-        <span className="conductor-cap" />
-        <span className="conductor-face"><i /><i /></span>
-        <span className="conductor-neck" />
-        <span className="conductor-torso"><i /></span>
-        <span className="conductor-arm" />
-        <span className="conductor-hand" />
-        <span className="conductor-ticket">05<small>GA</small></span>
-        <span className="conductor-legs" />
-      </div>
-    </div>
 
-    <div className="conductor-panel">
+    <div className="conductor-panel story-dialogue">
       <span className="carriage-kicker">● {ui.carriageKicker}</span>
       <div className="dialogue-label"><i /> {ui.conductor}</div>
       <h1 id="carriage-title">{ui.conductorQuestion}</h1>
       {voiceApiMode === "mock" && <span className="voice-mode">{ui.mockBadge}</span>}
       <p>{voiceApiMode === "mock" ? ui.mockConductorBody : ui.conductorBody}</p>
 
-      <div className="voice-console">
+      <div className="voice-console story-mic-row">
         <button className={`voice-button ${recording ? "recording" : ""}`} onClick={toggleRecording} disabled={processing} aria-pressed={recording} aria-label={recording ? ui.micStop : ui.micStart}>
           <span className="mic-symbol"><i /></span>
           <b>{processing ? (voiceApiMode === "mock" ? ui.mockTranscribing : ui.transcribing) : recording ? ui.micStop : ui.micStart}</b>
@@ -1065,9 +1056,9 @@ function Carriage({
 function TravelScreen({ stop, language }: { stop: ExperienceStop; language: Language }) {
   const ui = copy[language];
   return <section className="travel-screen" aria-live="polite" aria-label={`${ui.arrival} ${stop.location[language]}`}>
-    <Image className="travel-landscape" src="/train/hai-van-journey.webp" alt="" fill priority unoptimized sizes="100vw" aria-hidden="true" />
+    <Image className="travel-landscape" src="/train/coastal-transit-v2.webp" alt="" fill priority unoptimized sizes="100vw" aria-hidden="true" />
     <Image className="travel-destination" src={stop.scene} alt="" fill unoptimized sizes="100vw" aria-hidden="true" />
-    <div className="travel-rail-glow" aria-hidden="true" />
+    <Image className="travel-track-image" src="/train/straight-track-v2.png" alt="" fill priority unoptimized sizes="100vw" aria-hidden="true" />
     <Image className="travel-train-image" src="/train/heritage-express.webp" alt="" width={2086} height={218} priority unoptimized aria-hidden="true" />
     <div className="travel-vignette" aria-hidden="true" />
     <div className="travel-copy"><span>{ui.travellingTo}</span><h1>{stop.location[language]}</h1><p>{stop.title[language]}</p><div><i /><i /><i /><i /><i /></div></div>

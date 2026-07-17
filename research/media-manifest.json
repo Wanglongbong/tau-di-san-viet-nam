@@ -42,6 +42,20 @@
       "sha256": "c5ad4a475b15e9ebf0f89c2a2afa72f58f8d28004cbdd3b22318dd0002363446"
     },
     {
+      "path": "public/train/coastal-transit-v2.webp",
+      "kind": "generated-pixel-adaptation",
+      "source": "https://commons.wikimedia.org/wiki/File:Hai_Van_Pass,_Vietnam,_North-South_Railway.jpg",
+      "creator": "Vyacheslav Argenberg",
+      "sourceLicense": "CC BY 4.0",
+      "sourceLicenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "generator": "OpenAI ImageGen",
+      "transformation": "Recomposed as a side-view pixel-art coastal transit background; scenery, palette, detail and layout changed for a fictional journey transition.",
+      "projectAssetLicense": "CC BY 4.0",
+      "historicalBoundary": "Interpretive game background only; not documentary imagery or an exact reconstruction of the terrain or railway alignment.",
+      "bytes": 330848,
+      "sha256": "fec0f05a5f1e75ea4d304e6ac0f8f20f8e60dc0c4f1a8ef56418b846c2548759"
+    },
+    {
       "path": "public/train/heritage-express.webp",
       "kind": "generated-pixel-adaptation",
       "source": "https://commons.wikimedia.org/wiki/File:Train_passing_Lang_Co.jpg",
@@ -55,6 +69,21 @@
       "sha256": "1ac79c54be5756b182eade69d82f0d2664f877143c2268c896ac4aad893d5965"
     },
     {
+      "path": "public/train/straight-track-v2.png",
+      "kind": "generated-pixel-adaptation",
+      "source": "https://commons.wikimedia.org/wiki/File:Train_passing_Lang_Co.jpg",
+      "creator": "Emilio Labrador",
+      "sourceLicense": "CC BY 2.0",
+      "sourceLicenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "generator": "OpenAI ImageGen",
+      "derivationContext": "Generated in the project's pixel style through the heritage-express asset chain, whose openly licensed source is Train passing Lang Co.",
+      "transformation": "Created as a transparent, straight side-view rail layer for the fictional train animation.",
+      "projectAssetLicense": "CC BY 2.0",
+      "historicalBoundary": "Animation graphic only; not a historical reconstruction or a technically exact railway depiction.",
+      "bytes": 354586,
+      "sha256": "a660507050ff91f2cebef23207ac8a85d5d023e135d1f7a45db09fe6bbaabdca"
+    },
+    {
       "path": "public/train/heritage-carriage.webp",
       "kind": "generated-pixel-adaptation",
       "source": "https://commons.wikimedia.org/wiki/File:Soft_Seats_on_Vietnam_Railways_SE4.JPG",
@@ -66,6 +95,22 @@
       "projectAssetLicense": "CC BY-SA 3.0",
       "bytes": 233182,
       "sha256": "c0a118e1111449cb67b9fae0d262ef693ffe2a0107b7a448d59c8b60615f4f10"
+    },
+    {
+      "path": "public/characters/ticket-conductor-v2.png",
+      "kind": "generated-fictional-character-adaptation",
+      "source": "https://commons.wikimedia.org/wiki/File:VNR_employee_pouring_soup.jpg",
+      "creator": "anjči",
+      "sourceLicense": "CC BY 2.0",
+      "sourceLicenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "sourceAccessedAt": "2026-07-18",
+      "generator": "OpenAI ImageGen",
+      "referenceScope": "Broad historical uniform and onboard-service context only; the source subject is not described or represented as a ticket inspector.",
+      "transformation": "Created as a fictional pixel character with a generic new face; service cart, food, logos and identifying marks omitted.",
+      "projectAssetLicense": "CC BY 2.0",
+      "rightsNote": "The referenced uniform may be outdated. No endorsement by the photographed person, creator, railway operator or Wikimedia Commons is implied.",
+      "bytes": 683045,
+      "sha256": "b93e53adf77907f8e00f21fd3e864299e77d0732ff6036a7537e704fcc519c72"
     },
     {
       "path": "public/media/audio-manifest.json",

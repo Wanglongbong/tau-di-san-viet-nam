@@ -5,12 +5,15 @@ import test from "node:test";
 const projectRoot = new URL("../", import.meta.url);
 
 test("ships the carriage, grounded train artwork, voice routing, suggested questions and direct previews", async () => {
-  const [ui, css, transcribe, landscape, carriage, train] = await Promise.all([
+  const [ui, css, transcribe, cover, landscape, track, carriage, conductor, train] = await Promise.all([
     readFile(new URL("components/heritage-game.tsx", projectRoot), "utf8"),
     readFile(new URL("app/globals.css", projectRoot), "utf8"),
     readFile(new URL("app/api/transcribe/route.ts", projectRoot), "utf8"),
-    readFile(new URL("public/train/hai-van-journey.webp", projectRoot)),
+    readFile(new URL("public/og.png", projectRoot)),
+    readFile(new URL("public/train/coastal-transit-v2.webp", projectRoot)),
+    readFile(new URL("public/train/straight-track-v2.png", projectRoot)),
     readFile(new URL("public/train/heritage-carriage.webp", projectRoot)),
+    readFile(new URL("public/characters/ticket-conductor-v2.png", projectRoot)),
     readFile(new URL("public/train/heritage-express.webp", projectRoot)),
   ]);
 
@@ -26,17 +29,28 @@ test("ships the carriage, grounded train artwork, voice routing, suggested quest
   assert.match(ui, /question-suggestions/);
   assert.match(ui, /new Audio\(preview\.src\)/);
   assert.match(ui, /preset !== "clay-work" && preset !== "open-fire"/);
-  assert.match(ui, /\/train\/hai-van-journey\.webp/);
+  assert.match(ui, /\/og\.png/);
+  assert.match(ui, /\/train\/coastal-transit-v2\.webp/);
+  assert.match(ui, /\/train\/straight-track-v2\.png/);
   assert.match(ui, /\/train\/heritage-carriage\.webp/);
+  assert.match(ui, /\/characters\/ticket-conductor-v2\.png/);
   assert.match(ui, /\/train\/heritage-express\.webp/);
-  assert.equal((ui.match(/\bunoptimized\b/g) || []).length, 5);
-  assert.match(css, /\.pixel-conductor/);
+  assert.ok((ui.match(/\bunoptimized\b/g) || []).length >= 7);
+  assert.match(ui, /story-dialogue/);
+  assert.match(ui, /story-mic-row/);
+  assert.doesNotMatch(ui, /travel-rail-glow/);
+  assert.match(css, /\.conductor-character/);
+  assert.match(css, /\.travel-track-image/);
   assert.match(css, /\.travel-train-image/);
+  assert.doesNotMatch(css, /\.pixel-conductor|\.travel-rail-glow/);
   assert.match(css, /\.hotspot\.near/);
   assert.match(css, /prefers-reduced-motion/);
   assert.doesNotMatch(css, /\.pixel-train-side/);
-  assert.ok(landscape.byteLength > 200_000);
+  assert.ok(cover.byteLength > 500_000);
+  assert.ok(landscape.byteLength > 250_000);
+  assert.ok(track.byteLength > 250_000);
   assert.ok(carriage.byteLength > 200_000);
+  assert.ok(conductor.byteLength > 500_000);
   assert.ok(train.byteLength > 300_000);
 
   assert.match(transcribe, /gpt-4o-mini-transcribe/);
