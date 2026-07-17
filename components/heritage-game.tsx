@@ -60,6 +60,7 @@ type TranscriptionResponse = {
   status?: TranscriptionStatus;
   destinationId?: string | null;
   stopId?: string | null;
+  mock?: boolean;
   error?: string;
 };
 
@@ -125,10 +126,14 @@ const copy = {
     conductor: "NHÂN VIÊN SOÁT VÉ",
     conductorQuestion: "Bạn muốn đến ga nào?",
     conductorBody: "Hãy nói tên một trong năm điểm đến. Trưởng tàu sẽ nghe trong tối đa 6 giây rồi đối chiếu đúng tên ga — không lưu bản ghi giọng nói.",
+    mockConductorBody: "Bản demo đang dùng API giọng nói mô phỏng: micro vẫn ghi tối đa 6 giây để trình diễn luồng trải nghiệm, nhưng âm thanh không được phân tích. Kết quả mẫu sẽ đưa bạn đến Huế.",
+    mockBadge: "VOICE API · MÔ PHỎNG",
+    mockResult: "KẾT QUẢ MẪU · ÂM THANH KHÔNG ĐƯỢC PHÂN TÍCH",
     micStart: "Chạm để nói",
     micStop: "Chạm để gửi",
     listening: "Đang nghe…",
     transcribing: "Đang nhận diện điểm đến…",
+    mockTranscribing: "Đang chạy API mô phỏng…",
     micHint: "Ví dụ: “Tôi muốn đi Huế” hoặc “Đưa tôi đến Hà Nội”",
     transcript: "Tôi nghe thấy",
     matched: "Đã nhận vé. Tàu sắp chuyển bánh.",
@@ -140,6 +145,7 @@ const copy = {
     micLarge: "Bản ghi vượt quá 3 MB. Hãy thử lại với câu ngắn hơn.",
     chooseInstead: "Hoặc chọn vé trực tiếp",
     privacy: "Âm thanh chỉ được gửi để nhận diện ga, không được lưu trong Sổ di sản.",
+    mockPrivacy: "Bản ghi demo chỉ được kiểm tra định dạng rồi bỏ; không phân tích nội dung và không lưu.",
     backLanding: "Về trang đầu",
     travellingTo: "ĐANG RỜI KHOANG · ĐI ĐẾN",
     neutralSound: "Không gian âm thanh trung tính đang phát",
@@ -191,10 +197,14 @@ const copy = {
     conductor: "TICKET CONDUCTOR",
     conductorQuestion: "Where would you like to go?",
     conductorBody: "Say one of the five destinations. The conductor listens for up to 6 seconds and matches only the station name — the voice recording is not kept.",
+    mockConductorBody: "This demo uses a mock voice API: the microphone still records for up to 6 seconds to demonstrate the flow, but the audio is not analysed. The sample result will take you to Huế.",
+    mockBadge: "VOICE API · MOCK",
+    mockResult: "SAMPLE RESULT · AUDIO WAS NOT ANALYSED",
     micStart: "Tap to speak",
     micStop: "Tap to send",
     listening: "Listening…",
     transcribing: "Recognising your destination…",
+    mockTranscribing: "Running the mock API…",
     micHint: "For example: “Take me to Huế” or “I want to visit Hà Nội”",
     transcript: "I heard",
     matched: "Ticket accepted. The train is about to depart.",
@@ -206,6 +216,7 @@ const copy = {
     micLarge: "The recording is over 3 MB. Please try a shorter request.",
     chooseInstead: "Or choose a ticket directly",
     privacy: "Audio is sent only to recognise a station and is not stored in your heritage journal.",
+    mockPrivacy: "The demo recording is checked only for file validity, then discarded; its content is not analysed or stored.",
     backLanding: "Back to the opening",
     travellingTo: "LEAVING THE CARRIAGE · BOUND FOR",
     neutralSound: "Neutral environmental sound is playing",
@@ -537,7 +548,7 @@ function useAmbientAudio(environment: string, muted: boolean, ducked: boolean) {
   return { enable, playFoley, stopFoley };
 }
 
-export function HeritageGame() {
+export function HeritageGame({ voiceApiMode = "mock" }: { voiceApiMode?: "mock" | "live" }) {
   const [language, setLanguage] = useState<Language>("vi");
   const [phase, setPhase] = useState<JourneyPhase>("landing");
   const [stopIndex, setStopIndex] = useState(0);
@@ -806,7 +817,7 @@ export function HeritageGame() {
       </>}
 
       {phase === "landing" && <Intro language={language} onLanguage={setLanguage} onStart={() => { enableAmbient(); setPhase("carriage"); }} />}
-      {phase === "carriage" && <Carriage language={language} muted={muted} sessionId={sessionId} onLanguage={setLanguage} onToggleMuted={toggleMuted} onBack={resetToLanding} onDestination={beginTravel} onAudioActivate={enableAmbient} />}
+      {phase === "carriage" && <Carriage language={language} muted={muted} sessionId={sessionId} voiceApiMode={voiceApiMode} onLanguage={setLanguage} onToggleMuted={toggleMuted} onBack={resetToLanding} onDestination={beginTravel} onAudioActivate={enableAmbient} />}
       {phase === "travelling" && <TravelScreen stop={pendingStop} language={language} />}
       {phase === "heritage" && <div className="ambient-disclosure" role="note">♪ {ui.neutralSound}<span>{ui.ambientNote}</span></div>}
       {openHotspot && <RecordDrawer
@@ -850,6 +861,7 @@ function Carriage({
   language,
   muted,
   sessionId,
+  voiceApiMode,
   onLanguage,
   onToggleMuted,
   onBack,
@@ -859,6 +871,7 @@ function Carriage({
   language: Language;
   muted: boolean;
   sessionId: string;
+  voiceApiMode: "mock" | "live";
   onLanguage: (language: Language) => void;
   onToggleMuted: () => void;
   onBack: () => void;
@@ -870,6 +883,7 @@ function Carriage({
   const [processing, setProcessing] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [resultStatus, setResultStatus] = useState<TranscriptionStatus | null>(null);
+  const [mockedResult, setMockedResult] = useState(false);
   const [error, setError] = useState("");
   const recorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -915,8 +929,9 @@ function Carriage({
       const nextStatus: TranscriptionStatus = payload.status || (destinationIndex >= 0 ? "matched" : "no-match");
       setTranscript(payload.transcript || "");
       setResultStatus(nextStatus);
+      setMockedResult(payload.mock === true);
       if (nextStatus === "matched" && destinationIndex >= 0) {
-        departTimerRef.current = window.setTimeout(() => onDestination(destinationIndex), 1_050);
+        departTimerRef.current = window.setTimeout(() => onDestination(destinationIndex), payload.mock ? 1_800 : 1_050);
       }
     } catch {
       if (!cancelledRef.current) setError(ui.micError);
@@ -929,6 +944,7 @@ function Carriage({
     setError("");
     setTranscript("");
     setResultStatus(null);
+    setMockedResult(false);
     onAudioActivate();
 
     if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
@@ -1020,19 +1036,21 @@ function Carriage({
       <span className="carriage-kicker">● {ui.carriageKicker}</span>
       <div className="dialogue-label"><i /> {ui.conductor}</div>
       <h1 id="carriage-title">{ui.conductorQuestion}</h1>
-      <p>{ui.conductorBody}</p>
+      {voiceApiMode === "mock" && <span className="voice-mode">{ui.mockBadge}</span>}
+      <p>{voiceApiMode === "mock" ? ui.mockConductorBody : ui.conductorBody}</p>
 
       <div className="voice-console">
         <button className={`voice-button ${recording ? "recording" : ""}`} onClick={toggleRecording} disabled={processing} aria-pressed={recording} aria-label={recording ? ui.micStop : ui.micStart}>
           <span className="mic-symbol"><i /></span>
-          <b>{processing ? ui.transcribing : recording ? ui.micStop : ui.micStart}</b>
+          <b>{processing ? (voiceApiMode === "mock" ? ui.mockTranscribing : ui.transcribing) : recording ? ui.micStop : ui.micStart}</b>
           <small>{recording ? ui.listening : ui.micHint}</small>
           {recording && <em className="recording-progress" />}
         </button>
-        <div className="voice-privacy">◇ {ui.privacy}</div>
+        <div className="voice-privacy">◇ {voiceApiMode === "mock" ? ui.mockPrivacy : ui.privacy}</div>
       </div>
 
       {(transcript || resultCopy || error) && <div className={`voice-result ${resultStatus || "error"}`} role="status" aria-live="polite">
+        {mockedResult && <small>{ui.mockResult}</small>}
         {transcript && <p><span>{ui.transcript}</span> “{transcript}”</p>}
         {(resultCopy || error) && <b>{error || resultCopy}</b>}
       </div>}

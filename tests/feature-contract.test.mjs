@@ -16,6 +16,8 @@ test("ships the carriage, voice routing, suggested questions and direct previews
   assert.match(ui, /MAX_RECORDING_MS = 6_000/);
   assert.match(ui, /MAX_RECORDING_BYTES = 3 \* 1024 \* 1024/);
   assert.match(ui, /fetch\("\/api\/transcribe"/);
+  assert.match(ui, /VOICE API · MÔ PHỎNG/);
+  assert.match(ui, /mockedResult/);
   assert.match(ui, /fetch\("\/api\/guide"/);
   assert.match(ui, /sessionId/);
   assert.match(ui, /question-suggestions/);
@@ -26,6 +28,9 @@ test("ships the carriage, voice routing, suggested questions and direct previews
   assert.match(css, /prefers-reduced-motion/);
 
   assert.match(transcribe, /gpt-4o-mini-transcribe/);
+  assert.match(transcribe, /MOCK_VOICE_API/);
+  assert.match(transcribe, /mock: true/);
+  assert.match(transcribe, /destinationId: "nha-nhac"/);
   assert.match(transcribe, /MAX_AUDIO_BYTES = 3 \* 1024 \* 1024/);
   assert.match(transcribe, /matchDestination\(transcript\)/);
   assert.doesNotMatch(`${ui}\n${transcribe}`, /youtube|youtu\.be/i);

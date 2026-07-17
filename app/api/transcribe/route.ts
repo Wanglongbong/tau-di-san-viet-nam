@@ -7,6 +7,10 @@ import { sessionIdFromRequest } from "@/lib/server/session";
 const MAX_AUDIO_BYTES = 3 * 1024 * 1024;
 const TRANSCRIBE_REQUESTS_PER_MINUTE = 6;
 
+function mockVoiceEnabled() {
+  return process.env.MOCK_VOICE_API !== "false" || !process.env.OPENAI_API_KEY;
+}
+
 const metadataSchema = z.object({
   language: z.enum(["vi", "en"]).default("vi"),
 });
@@ -68,8 +72,15 @@ export async function POST(request: Request) {
   const headers = rateLimitHeaders(rateLimit);
   if (!rateLimit.allowed) return errorResponse("rate-limit-exceeded", 429, headers);
 
-  if (!process.env.OPENAI_API_KEY) {
-    return errorResponse("transcription-unavailable", 503, headers);
+  if (mockVoiceEnabled()) {
+    return Response.json({
+      transcript: metadata.data.language === "vi" ? "Tôi muốn đi Huế" : "Take me to Huế",
+      status: "matched",
+      destinationId: "nha-nhac",
+      mock: true,
+    }, {
+      headers: { ...headers, "cache-control": "no-store" },
+    });
   }
 
   const prompts = {
@@ -93,6 +104,7 @@ export async function POST(request: Request) {
       transcript,
       status: match.status,
       destinationId: match.destinationId,
+      mock: false,
     }, { headers });
   } catch {
     return errorResponse("transcription-failed", 502, headers);

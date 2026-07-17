@@ -355,6 +355,8 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 .voice-privacy { margin-top: 10px; color: rgba(239,229,207,.44); font: 7px/1.5 var(--mono); letter-spacing: .04em; }
 .voice-result { max-width: 680px; margin-top: 13px; padding: 13px 15px; background: rgba(143,181,139,.08); border-left: 3px solid var(--green); }
 .voice-result.error, .voice-result.no-match, .voice-result.ambiguous { background: rgba(183,106,79,.08); border-left-color: #b76a4f; }
+.voice-mode { display: inline-block; margin: 1px 0 10px; padding: 5px 8px; color: #231a10; background: var(--gold); font: 800 7px var(--mono); letter-spacing: .12em; box-shadow: 3px 3px 0 rgba(0,0,0,.28); }
+.voice-result > small { display: block; margin-bottom: 8px; color: var(--gold); font: 800 7px var(--mono); letter-spacing: .1em; }
 .voice-result p { margin: 0 0 7px; color: var(--muted); font-size: 11px; line-height: 1.45; }.voice-result p span { display: block; margin-bottom: 3px; color: var(--green); font: 700 7px var(--mono); text-transform: uppercase; letter-spacing: .1em; }
 .voice-result b { font-size: 11px; font-weight: 600; }
 .station-choice { max-width: 680px; margin-top: 24px; }
