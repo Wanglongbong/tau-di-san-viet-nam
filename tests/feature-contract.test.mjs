@@ -4,11 +4,14 @@ import test from "node:test";
 
 const projectRoot = new URL("../", import.meta.url);
 
-test("ships the carriage, voice routing, suggested questions and direct previews", async () => {
-  const [ui, css, transcribe] = await Promise.all([
+test("ships the carriage, grounded train artwork, voice routing, suggested questions and direct previews", async () => {
+  const [ui, css, transcribe, landscape, carriage, train] = await Promise.all([
     readFile(new URL("components/heritage-game.tsx", projectRoot), "utf8"),
     readFile(new URL("app/globals.css", projectRoot), "utf8"),
     readFile(new URL("app/api/transcribe/route.ts", projectRoot), "utf8"),
+    readFile(new URL("public/train/hai-van-journey.webp", projectRoot)),
+    readFile(new URL("public/train/heritage-carriage.webp", projectRoot)),
+    readFile(new URL("public/train/heritage-express.webp", projectRoot)),
   ]);
 
   assert.match(ui, /"landing" \| "carriage" \| "travelling" \| "heritage"/);
@@ -23,9 +26,18 @@ test("ships the carriage, voice routing, suggested questions and direct previews
   assert.match(ui, /question-suggestions/);
   assert.match(ui, /new Audio\(preview\.src\)/);
   assert.match(ui, /preset !== "clay-work" && preset !== "open-fire"/);
+  assert.match(ui, /\/train\/hai-van-journey\.webp/);
+  assert.match(ui, /\/train\/heritage-carriage\.webp/);
+  assert.match(ui, /\/train\/heritage-express\.webp/);
+  assert.equal((ui.match(/\bunoptimized\b/g) || []).length, 5);
   assert.match(css, /\.pixel-conductor/);
+  assert.match(css, /\.travel-train-image/);
   assert.match(css, /\.hotspot\.near/);
   assert.match(css, /prefers-reduced-motion/);
+  assert.doesNotMatch(css, /\.pixel-train-side/);
+  assert.ok(landscape.byteLength > 200_000);
+  assert.ok(carriage.byteLength > 200_000);
+  assert.ok(train.byteLength > 300_000);
 
   assert.match(transcribe, /gpt-4o-mini-transcribe/);
   assert.match(transcribe, /MOCK_VOICE_API/);

@@ -1,6 +1,6 @@
 {
   "project": "Tàu Di Sản Việt Nam",
-  "updatedAt": "2026-07-17",
+  "updatedAt": "2026-07-18",
   "policy": "Only recordings with an explicit reusable licence are served locally. A null audio src is either original browser synthesis or a reference-only item that must not be downloaded or re-hosted. No YouTube extraction or unlicensed substitution is permitted.",
   "rightsSeparation": "MIT applies to source code only. Each media/content item retains the terms recorded in CREDITS.md and public/media/audio-manifest.json; community cultural rights are not relicensed by the code licence.",
   "audioInventory": "public/media/audio-manifest.json",
@@ -27,6 +27,45 @@
       "visualScope": "Fictional pixel train interior, ticket conductor, abstract landscape and five-stop route; no ritual reconstruction or specific heritage performance",
       "generator": "OpenAI ImageGen",
       "rightsNote": "Project-generated content asset; not covered by the code-only MIT licence and not an artisan endorsement."
+    },
+    {
+      "path": "public/train/hai-van-journey.webp",
+      "kind": "generated-pixel-adaptation",
+      "source": "https://commons.wikimedia.org/wiki/File:Hai_Van_Pass,_Vietnam,_North-South_Railway.jpg",
+      "creator": "Vyacheslav Argenberg",
+      "sourceLicense": "CC BY 4.0",
+      "sourceLicenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "generator": "OpenAI ImageGen",
+      "transformation": "Recomposed as a wide 2D pixel-art railway landscape; palette, time of day, detail and composition changed.",
+      "projectAssetLicense": "CC BY 4.0",
+      "bytes": 285956,
+      "sha256": "c5ad4a475b15e9ebf0f89c2a2afa72f58f8d28004cbdd3b22318dd0002363446"
+    },
+    {
+      "path": "public/train/heritage-express.webp",
+      "kind": "generated-pixel-adaptation",
+      "source": "https://commons.wikimedia.org/wiki/File:Train_passing_Lang_Co.jpg",
+      "creator": "Emilio Labrador",
+      "sourceLicense": "CC BY 2.0",
+      "sourceLicenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "generator": "OpenAI ImageGen",
+      "transformation": "Redrawn as a transparent side-view pixel sprite, simplified and combined with three fictional heritage coaches; logos and operating marks omitted.",
+      "projectAssetLicense": "CC BY 2.0",
+      "bytes": 427434,
+      "sha256": "1ac79c54be5756b182eade69d82f0d2664f877143c2268c896ac4aad893d5965"
+    },
+    {
+      "path": "public/train/heritage-carriage.webp",
+      "kind": "generated-pixel-adaptation",
+      "source": "https://commons.wikimedia.org/wiki/File:Soft_Seats_on_Vietnam_Railways_SE4.JPG",
+      "creator": "Dragfyre",
+      "sourceLicense": "CC BY-SA 3.0",
+      "sourceLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "generator": "OpenAI ImageGen",
+      "transformation": "Redrawn as a fictional first-person 2D pixel carriage while retaining only broad real-world seat, curtain and aisle proportions.",
+      "projectAssetLicense": "CC BY-SA 3.0",
+      "bytes": 233182,
+      "sha256": "c0a118e1111449cb67b9fae0d262ef693ffe2a0107b7a448d59c8b60615f4f10"
     },
     {
       "path": "public/media/audio-manifest.json",

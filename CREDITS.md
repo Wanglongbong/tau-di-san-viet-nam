@@ -38,7 +38,13 @@ Hai hiệu ứng cho thao tác đất và lửa cũng được tổng hợp tron
 
 Năm cảnh trong `public/scenes/` và ảnh giới thiệu là minh họa gốc do OpenAI ImageGen tạo cho prototype dựa trên phần mô tả công khai trong các hồ sơ UNESCO. Chúng là không gian diễn giải, không phải ảnh tư liệu, bản phục dựng nghi lễ hoặc lời xác nhận của nghệ nhân.
 
-Không có thư mục ảnh tham khảo bên ngoài được phân phối cùng dự án. Danh mục tài sản thực tế nằm trong `research/media-manifest.json`.
+Ba hình tàu mới cũng do OpenAI ImageGen tạo, nhưng được dự án xem và ghi công như các bản chuyển thể pixel từ ảnh đường sắt Việt Nam có giấy phép mở:
+
+- `public/train/hai-van-journey.webp` tham chiếu bố cục tuyến đường sắt ven núi và biển trong [Hai Van Pass, Vietnam, North-South Railway](https://commons.wikimedia.org/wiki/File:Hai_Van_Pass,_Vietnam,_North-South_Railway.jpg), Vyacheslav Argenberg, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Hình đã được vẽ lại thành phong cảnh pixel 2D và thay đổi màu, thời điểm trong ngày, chi tiết cùng bố cục.
+- `public/train/heritage-express.webp` tham chiếu dáng đầu máy và bảng màu từ [Train passing Lang Co](https://commons.wikimedia.org/wiki/File:Train_passing_Lang_Co.jpg), Emilio Labrador, [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/). Hình đã được vẽ lại, đơn giản hóa và ghép với ba toa hư cấu; không giữ logo, số hiệu hoặc dấu hiệu nhận diện nhà vận hành.
+- `public/train/heritage-carriage.webp` tham chiếu tỷ lệ ghế, rèm và lối đi trong [Soft Seats on Vietnam Railways SE4](https://commons.wikimedia.org/wiki/File:Soft_Seats_on_Vietnam_Railways_SE4.JPG), Dragfyre, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). Hình đã được vẽ lại thành khoang tàu pixel hư cấu. Bản chuyển thể này được cung cấp theo CC BY-SA 3.0.
+
+“Tàu Di Sản” là thiết kế diễn giải hư cấu lấy cảm hứng từ đường sắt Việt Nam, không phải bản phục dựng chính xác một đoàn tàu lịch sử và không hàm ý đơn vị đường sắt, tác giả ảnh hay Wikimedia Commons bảo trợ dự án. Các ảnh tham khảo gốc không được phân phối cùng repository. Danh mục tài sản thực tế nằm trong `research/media-manifest.json`.
 
 ## Giấy phép dự án
 

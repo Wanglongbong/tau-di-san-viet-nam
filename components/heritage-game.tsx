@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   FormEvent,
   PointerEvent,
@@ -708,7 +709,7 @@ export function HeritageGame({ voiceApiMode = "mock" }: { voiceApiMode?: "mock" 
       setStopIndex(index);
       setPhase("heritage");
       travelTimerRef.current = null;
-    }, 1_650);
+    }, 2_700);
   }
 
   function resetToLanding() {
@@ -850,7 +851,7 @@ function Intro({ language, onLanguage, onStart }: { language: Language; onLangua
       </div>
     </div>
     <div className="intro-train-art" aria-hidden="true">
-      <div className="train-window"><div className="window-sky" /><div className="window-fields" /><div className="window-sun" /><div className="window-track" /></div>
+      <Image className="intro-train-sprite" src="/train/heritage-express.webp" alt="" width={2086} height={218} priority unoptimized />
       <div className="ticket"><small>{ui.board}</small><b>HÀ NỘI</b><i /> <b>SÀI GÒN</b><span>05 GA · 1,726 KM</span></div>
     </div>
     <div className="intro-source"><span>●</span> 05 UNESCO FILES <i /> 15 VERIFIED RECORDS <i /> NO CULTURAL FABRICATION</div>
@@ -1009,16 +1010,8 @@ function Carriage({
       <div><button onClick={onToggleMuted} aria-label={muted ? ui.unmute : ui.mute}>{muted ? "◌" : "♪"}</button><button onClick={() => onLanguage(language === "vi" ? "en" : "vi")}>{language === "vi" ? "EN" : "VI"}</button></div>
     </div>
     <div className="carriage-visual" aria-hidden="true">
-      <div className="carriage-ceiling"><i /><i /><i /></div>
-      <div className="carriage-rack" />
-      <div className="carriage-window-large">
-        <div className="carriage-sky" />
-        <div className="carriage-hills" />
-        <div className="carriage-fields" />
-        <div className="carriage-poles" />
-      </div>
-      <div className="carriage-seat seat-left" /><div className="carriage-seat seat-right" />
-      <div className="carriage-floor" />
+      <Image className="carriage-backdrop" src="/train/heritage-carriage.webp" alt="" fill priority unoptimized sizes="(max-width: 860px) 100vw, 46vw" />
+      <span className="carriage-light-sweep" />
       <div className="pixel-conductor">
         <span className="conductor-shadow" />
         <span className="conductor-cap" />
@@ -1072,12 +1065,11 @@ function Carriage({
 function TravelScreen({ stop, language }: { stop: ExperienceStop; language: Language }) {
   const ui = copy[language];
   return <section className="travel-screen" aria-live="polite" aria-label={`${ui.arrival} ${stop.location[language]}`}>
-    <div className="travel-pixel-sky" aria-hidden="true"><i /><i /><i /></div>
-    <div className="travel-mountains" aria-hidden="true" />
-    <div className="travel-fields" aria-hidden="true" />
-    <div className="travel-track" aria-hidden="true" />
-    <div className="pixel-train-side" aria-hidden="true"><span className="engine-window" /><span className="train-door" /><i /><i /><i /><i /></div>
-    <div className="travel-vignette" />
+    <Image className="travel-landscape" src="/train/hai-van-journey.webp" alt="" fill priority unoptimized sizes="100vw" aria-hidden="true" />
+    <Image className="travel-destination" src={stop.scene} alt="" fill unoptimized sizes="100vw" aria-hidden="true" />
+    <div className="travel-rail-glow" aria-hidden="true" />
+    <Image className="travel-train-image" src="/train/heritage-express.webp" alt="" width={2086} height={218} priority unoptimized aria-hidden="true" />
+    <div className="travel-vignette" aria-hidden="true" />
     <div className="travel-copy"><span>{ui.travellingTo}</span><h1>{stop.location[language]}</h1><p>{stop.title[language]}</p><div><i /><i /><i /><i /><i /></div></div>
   </section>;
 }
