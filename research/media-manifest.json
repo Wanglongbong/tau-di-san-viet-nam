@@ -1,0 +1,46 @@
+{
+  "project": "Tàu Di Sản Việt Nam",
+  "updatedAt": "2026-07-17",
+  "policy": "Only media with an explicit reusable licence is served locally. Official-source links are used when redistribution rights are unclear.",
+  "servedAssets": [
+    {
+      "path": "public/og.webp",
+      "kind": "original-generated-social-card",
+      "heritageSources": "The five UNESCO files listed in CREDITS.md"
+    },
+    {
+      "path": "public/media/ca-tru-sound-futures.ogg",
+      "kind": "audio-excerpt",
+      "source": "https://commons.wikimedia.org/wiki/File:Ca_Tru_Club_performance.ogv",
+      "creator": "Sound Futures",
+      "license": "CC BY 3.0",
+      "transformation": "22-second excerpt beginning approximately 8 seconds into the source; audio transcoded to Opus in an Ogg container",
+      "approvedForPrototype": true
+    },
+    {
+      "path": "public/scenes/01-quan-ho.webp",
+      "kind": "original-generated-illustration",
+      "heritageSource": "https://ich.unesco.org/en/RL/quan-h-bc-ninh-folk-songs-00183"
+    },
+    {
+      "path": "public/scenes/02-ca-tru.webp",
+      "kind": "original-generated-illustration",
+      "heritageSource": "https://ich.unesco.org/en/USL/ca-tru-singing-00309"
+    },
+    {
+      "path": "public/scenes/03-nha-nhac.webp",
+      "kind": "original-generated-illustration",
+      "heritageSource": "https://ich.unesco.org/en/RL/nha-nhac-vietnamese-court-music-00074"
+    },
+    {
+      "path": "public/scenes/04-cham-pottery.webp",
+      "kind": "original-generated-illustration",
+      "heritageSource": "https://ich.unesco.org/en/USL/art-of-pottery-making-of-chm-people-01574"
+    },
+    {
+      "path": "public/scenes/05-don-ca-tai-tu.webp",
+      "kind": "original-generated-illustration",
+      "heritageSource": "https://ich.unesco.org/en/RL/art-of-n-ca-tai-t-music-and-song-in-southern-viet-nam-00733"
+    }
+  ]
+}

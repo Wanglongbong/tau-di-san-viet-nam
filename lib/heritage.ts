@@ -1,0 +1,396 @@
+import type { HeritageStop, SourceRecord } from "@/lib/types";
+
+export const sources: SourceRecord[] = [
+  {
+    id: "unesco-quan-ho-00183",
+    title: { vi: "Dân ca Quan họ Bắc Ninh", en: "Quan Họ Bắc Ninh folk songs" },
+    institution: "UNESCO Intangible Cultural Heritage",
+    url: "https://ich.unesco.org/en/RL/quan-h-bc-ninh-folk-songs-00183",
+    status: "approved",
+    reviewedBy: "UNESCO nomination file with community consent",
+    rights: {
+      vi: "Chỉ diễn giải dữ kiện công khai. Bản ghi và hình ảnh cần giấy phép riêng.",
+      en: "Public facts may be interpreted. Recordings and images require separate permission.",
+    },
+    accessedAt: "2026-07-17",
+  },
+  {
+    id: "unesco-ca-tru-00309",
+    title: { vi: "Hát Ca trù", en: "Ca trù singing" },
+    institution: "UNESCO Intangible Cultural Heritage",
+    url: "https://ich.unesco.org/en/USL/ca-tru-singing-00309",
+    status: "approved",
+    reviewedBy: "Vietnamese Institute for Musicology and community nomination",
+    rights: {
+      vi: "Dữ kiện từ hồ sơ UNESCO; đoạn âm thanh dùng giấy phép CC BY 3.0 riêng.",
+      en: "Facts from the UNESCO file; the audio excerpt uses a separate CC BY 3.0 licence.",
+    },
+    accessedAt: "2026-07-17",
+  },
+  {
+    id: "unesco-nha-nhac-00074",
+    title: { vi: "Nhã nhạc, âm nhạc cung đình Việt Nam", en: "Nha Nhac, Vietnamese court music" },
+    institution: "UNESCO Intangible Cultural Heritage",
+    url: "https://ich.unesco.org/en/RL/nha-nhac-vietnamese-court-music-00074",
+    status: "approved",
+    reviewedBy: "Huế Monuments Conservation Centre / UNESCO",
+    rights: {
+      vi: "Chỉ diễn giải dữ kiện công khai; không sao chép bản ghi UNESCO.",
+      en: "Public facts only; UNESCO recordings are not redistributed.",
+    },
+    accessedAt: "2026-07-17",
+  },
+  {
+    id: "unesco-cham-pottery-01574",
+    title: { vi: "Nghệ thuật làm gốm của người Chăm", en: "Art of pottery-making of Chăm people" },
+    institution: "UNESCO Intangible Cultural Heritage",
+    url: "https://ich.unesco.org/en/USL/art-of-pottery-making-of-chm-people-01574",
+    status: "approved",
+    reviewedBy: "Vietnam National Institute of Culture and Arts Studies with community consent",
+    rights: {
+      vi: "Không tái tạo hoa văn, bí quyết hoặc vật nghi lễ hạn chế; hoạt ảnh chỉ minh họa dữ kiện công khai.",
+      en: "No restricted motifs, techniques or ritual objects are reproduced; animation illustrates public facts only.",
+    },
+    accessedAt: "2026-07-17",
+  },
+  {
+    id: "unesco-don-ca-tai-tu-00733",
+    title: { vi: "Nghệ thuật Đờn ca tài tử Nam Bộ", en: "Art of Đờn ca tài tử in southern Viet Nam" },
+    institution: "UNESCO Intangible Cultural Heritage",
+    url: "https://ich.unesco.org/en/RL/art-of-n-ca-tai-t-music-and-song-in-southern-viet-nam-00733",
+    status: "approved",
+    reviewedBy: "Vietnamese Institute for Musicology and community nomination",
+    rights: {
+      vi: "Chỉ diễn giải dữ kiện công khai; bản ghi chính thức được mở tại nguồn.",
+      en: "Public facts only; official recordings open at their source.",
+    },
+    accessedAt: "2026-07-17",
+  },
+  {
+    id: "commons-ca-tru-sound-futures",
+    title: { vi: "Trình diễn Ca trù — Sound Futures", en: "Ca trù Club performance — Sound Futures" },
+    institution: "Wikimedia Commons",
+    url: "https://commons.wikimedia.org/wiki/File:Ca_Tru_Club_performance.ogv",
+    status: "approved",
+    reviewedBy: "Wikimedia Commons licence review",
+    rights: {
+      vi: "CC BY 3.0 — ghi công Sound Futures; đoạn trích 22 giây.",
+      en: "CC BY 3.0 — attribution to Sound Futures; 22-second excerpt.",
+    },
+    accessedAt: "2026-07-17",
+  },
+];
+
+export const stops: HeritageStop[] = [
+  {
+    id: "quan-ho",
+    number: "01",
+    location: { vi: "Bắc Ninh · Bắc Giang", en: "Bắc Ninh · Bắc Giang" },
+    title: { vi: "Quan họ Kinh Bắc", en: "Quan họ of Kinh Bắc" },
+    subtitle: { vi: "Lời mời, câu đối đáp, cuộc chia tay", en: "Invitation, exchange and farewell" },
+    description: {
+      vi: "Quan họ kết nối những làng kết chạ bằng lối hát đối đáp giữa nhóm nữ và nhóm nam, với giai điệu tương ứng nhưng lời ca khác nhau.",
+      en: "Quan họ links twinned villages through alternating verses between women and men, using related melodies with different lyrics.",
+    },
+    scene: "/scenes/01-quan-ho.webp",
+    palette: "#f0b07a",
+    sourceIds: ["unesco-quan-ho-00183"],
+    hotspots: [
+      {
+        id: "round-hat",
+        label: { vi: "Nón quai thao", en: "Large round hat" },
+        kicker: { vi: "Trang phục trong không gian hát", en: "Dress within the singing space" },
+        story: {
+          vi: "Hồ sơ UNESCO ghi nhận phụ nữ Quan họ truyền thống đội nón tròn lớn và quàng khăn; nam giới mặc áo dài, khăn xếp và có thể mang ô.",
+          en: "The UNESCO file notes that women traditionally wear distinctive large round hats and scarves, while men wear tunics and turbans and may carry umbrellas.",
+        },
+        facts: [
+          { vi: "Trang phục là một phần của không gian giao tiếp Quan họ.", en: "Dress is part of Quan họ’s social setting." },
+          { vi: "Minh họa pixel không đại diện cho mọi biến thể địa phương.", en: "The pixel illustration does not represent every local variation." },
+        ],
+        x: 23, y: 78, radius: 13, interaction: "story", sourceIds: ["unesco-quan-ho-00183"],
+      },
+      {
+        id: "paired-singing",
+        label: { vi: "Hát đối đáp", en: "Responsive singing" },
+        kicker: { vi: "Hai làng, hai nhóm hát", en: "Two villages, two singing groups" },
+        story: {
+          vi: "Hai phụ nữ của một làng hát hòa giọng; hai nam giới từ làng kết chạ đáp lại bằng giai điệu tương tự với lời khác. Thực hành này củng cố quan hệ giữa các làng.",
+          en: "Two women from one village sing in harmony; two men from a twinned village respond with similar melodies and different lyrics, strengthening relationships between villages.",
+        },
+        facts: [
+          { vi: "Quan họ xuất hiện trong nghi lễ, lễ hội và những cuộc gặp thân tình.", en: "Quan họ appears in rituals, festivals and informal gatherings." },
+          { vi: "Bản ghi chính thức mở tại trang UNESCO; game không sao chép tệp khi chưa rõ quyền.", en: "The official recording opens at UNESCO; the game does not copy unclear-rights media." },
+        ],
+        x: 50, y: 51, radius: 12, interaction: "audio", sourceIds: ["unesco-quan-ho-00183"],
+        media: { kind: "official-link", sourceUrl: "https://ich.unesco.org/en/RL/quan-h-bc-ninh-folk-songs-00183" },
+      },
+      {
+        id: "melody-book",
+        label: { vi: "Kho lời ca", en: "Song repertoire" },
+        kicker: { vi: "Ký ức được truyền bằng thực hành", en: "Memory transmitted through practice" },
+        story: {
+          vi: "UNESCO ghi nhận hơn 400 lời ca với 213 biến thể giai điệu, diễn tả nỗi nhớ, chia xa và niềm vui gặp gỡ.",
+          en: "UNESCO records more than 400 song lyrics and 213 melody variations expressing longing, separation and the joy of reunion.",
+        },
+        facts: [
+          { vi: "Người trẻ luyện bốn kỹ thuật hát được hồ sơ mô tả.", en: "Young singers practise four techniques described by the file." },
+          { vi: "Con số là dữ kiện hồ sơ UNESCO, không phải thống kê trực tiếp của game.", en: "These counts come from the UNESCO file, not an independent game survey." },
+        ],
+        x: 82, y: 79, radius: 11, interaction: "story", sourceIds: ["unesco-quan-ho-00183"],
+      },
+    ],
+  },
+  {
+    id: "ca-tru",
+    number: "02",
+    location: { vi: "Hà Nội · Bắc Bộ", en: "Hà Nội · Northern Viet Nam" },
+    title: { vi: "Ca trù", en: "Ca trù" },
+    subtitle: { vi: "Thơ hát, phách và tiếng trống thưởng", en: "Sung poetry, clappers and praise drum" },
+    description: {
+      vi: "Một nhóm Ca trù điển hình có ca nương vừa hát vừa gõ phách, người chơi đàn đáy và người đánh trống chầu.",
+      en: "A typical Ca trù group features a singer using clappers, a đàn đáy player and a praise-drum player.",
+    },
+    scene: "/scenes/02-ca-tru.webp",
+    palette: "#ee7b45",
+    sourceIds: ["unesco-ca-tru-00309", "commons-ca-tru-sound-futures"],
+    hotspots: [
+      {
+        id: "dan-day",
+        label: { vi: "Đàn đáy", en: "Đàn đáy lute" },
+        kicker: { vi: "Âm trầm của đàn ba dây", en: "The deep tone of a three-string lute" },
+        story: {
+          vi: "Đàn đáy tạo phần âm trầm đặc trưng trong nhóm Ca trù. Người đàn nâng đỡ giọng hát và hệ thống nhịp của phách, trống chầu.",
+          en: "The three-string đàn đáy provides the ensemble’s deep tone, supporting the singer and the rhythmic dialogue of clappers and praise drum.",
+        },
+        facts: [
+          { vi: "Ca trù dùng thơ theo các thể truyền thống Việt Nam.", en: "Ca trù uses lyrics in traditional Vietnamese poetic forms." },
+          { vi: "Tư liệu ghi nhận 56 thể cách hoặc giai điệu.", en: "The file records 56 musical forms or melodies." },
+        ],
+        x: 24, y: 78, radius: 13, interaction: "audio", sourceIds: ["unesco-ca-tru-00309", "commons-ca-tru-sound-futures"],
+        media: {
+          kind: "audio", src: "/media/ca-tru-sound-futures.ogg", creator: "Sound Futures", license: "CC BY 3.0",
+          sourceUrl: "https://commons.wikimedia.org/wiki/File:Ca_Tru_Club_performance.ogv",
+          credit: { vi: "Trích 22 giây từ bản ghi của Sound Futures, CC BY 3.0.", en: "22-second excerpt from Sound Futures, CC BY 3.0." },
+        },
+      },
+      {
+        id: "phach",
+        label: { vi: "Phách", en: "Clappers" },
+        kicker: { vi: "Nhịp trong tay người hát", en: "Rhythm in the singer’s hands" },
+        story: {
+          vi: "Ca nương vừa dùng kỹ thuật hơi, rung giọng để tạo âm thanh trang sức, vừa gõ phách hoặc hộp gỗ để giữ và biến hóa nhịp.",
+          en: "The singer combines breath and vibrato ornamentation with clappers or a wooden box that articulates the rhythmic structure.",
+        },
+        facts: [
+          { vi: "Phách không phải nút chấm điểm trong game.", en: "The clappers are not treated as a scoring device in the game." },
+          { vi: "Mục tiêu là nhận biết vai trò, không mô phỏng tay nghề.", en: "The goal is to recognize its role, not simulate mastery." },
+        ],
+        x: 52, y: 80, radius: 11, interaction: "animation", sourceIds: ["unesco-ca-tru-00309"],
+        media: { kind: "animation" },
+      },
+      {
+        id: "praise-drum",
+        label: { vi: "Trống chầu", en: "Praise drum" },
+        kicker: { vi: "Tiếng trống trong cuộc diễn", en: "A drum within the performance" },
+        story: {
+          vi: "Người đánh trống chầu tạo những tiếng mạnh, tham gia vào cấu trúc biểu diễn cùng giọng hát, phách và đàn đáy.",
+          en: "The praise-drum player contributes strong accents within the performance alongside voice, clappers and đàn đáy.",
+        },
+        facts: [
+          { vi: "Ca trù từng phục vụ nhiều bối cảnh xã hội khác nhau.", en: "Ca trù historically served several social settings." },
+          { vi: "Di sản vẫn cần bảo vệ do số nghệ nhân thành thạo còn ít và cao tuổi.", en: "The tradition remains at risk because skilled practitioners are few and ageing." },
+        ],
+        x: 81, y: 72, radius: 13, interaction: "story", sourceIds: ["unesco-ca-tru-00309"],
+      },
+    ],
+  },
+  {
+    id: "nha-nhac",
+    number: "03",
+    location: { vi: "Huế", en: "Huế" },
+    title: { vi: "Nhã nhạc cung đình", en: "Nhã nhạc court music" },
+    subtitle: { vi: "Âm nhạc trong trật tự nghi lễ", en: "Music within ceremonial order" },
+    description: {
+      vi: "Nhã nhạc bao gồm nhiều phong cách âm nhạc và múa của triều đình Việt Nam từ thế kỷ XV đến giữa thế kỷ XX.",
+      en: "Nhã nhạc spans court music and dance styles performed from the fifteenth to the mid-twentieth century.",
+    },
+    scene: "/scenes/03-nha-nhac.webp",
+    palette: "#d95d48",
+    sourceIds: ["unesco-nha-nhac-00074"],
+    hotspots: [
+      {
+        id: "great-drum",
+        label: { vi: "Bộ trống", en: "Prominent drum section" },
+        kicker: { vi: "Trọng tâm của đại nhạc", en: "A prominent orchestral section" },
+        story: {
+          vi: "Hồ sơ UNESCO mô tả các dàn nhạc quy mô lớn có bộ trống nổi bật bên cạnh nhiều nhạc cụ gõ, hơi và dây.",
+          en: "The UNESCO file describes large orchestras with a prominent drum section alongside percussion, wind and string instruments.",
+        },
+        facts: [
+          { vi: "Người biểu diễn phải tập trung cao để theo đúng từng bước nghi lễ.", en: "Performers maintained intense concentration to follow each ceremonial step." },
+          { vi: "Hình minh họa không tái dựng một nghi lễ cụ thể.", en: "The illustration does not reconstruct a specific ceremony." },
+        ],
+        x: 17, y: 71, radius: 13, interaction: "story", sourceIds: ["unesco-nha-nhac-00074"],
+      },
+      {
+        id: "court-orchestra",
+        label: { vi: "Dàn nhạc", en: "Court ensemble" },
+        kicker: { vi: "Hơi, dây và bộ gõ", en: "Winds, strings and percussion" },
+        story: {
+          vi: "Nhã nhạc từng hiện diện trong lễ kỷ niệm, lễ tôn giáo, lễ đăng quang, tang lễ và các cuộc tiếp đón chính thức của triều đình.",
+          en: "Nhã nhạc accompanied anniversaries, religious holidays, coronations, funerals and official court receptions.",
+        },
+        facts: [
+          { vi: "Bản ghi chính thức được mở tại hồ sơ UNESCO.", en: "The official recording opens at the UNESCO file." },
+          { vi: "Game không trích âm thanh khi chưa có giấy phép tái sử dụng rõ ràng.", en: "The game does not copy audio without a clear reuse licence." },
+        ],
+        x: 52, y: 78, radius: 14, interaction: "audio", sourceIds: ["unesco-nha-nhac-00074"],
+        media: { kind: "official-link", sourceUrl: "https://ich.unesco.org/en/RL/nha-nhac-vietnamese-court-music-00074" },
+      },
+      {
+        id: "ceremonial-door",
+        label: { vi: "Không gian nghi lễ", en: "Ceremonial setting" },
+        kicker: { vi: "Âm nhạc gắn với chức năng xã hội", en: "Music tied to social function" },
+        story: {
+          vi: "Nhã nhạc không chỉ là phần đệm: trong bối cảnh cung đình, âm nhạc còn truyền đạt quan niệm về tự nhiên, vũ trụ và sự tôn kính.",
+          en: "Nhã nhạc was more than accompaniment: within court life it conveyed respect and knowledge about nature and the universe.",
+        },
+        facts: [
+          { vi: "Truyền thống bị đe dọa khi mất bối cảnh cung đình trong thế kỷ XX.", en: "The tradition was threatened when it lost its court context in the twentieth century." },
+          { vi: "Những nhạc công còn lại đã góp phần duy trì thực hành.", en: "Surviving court musicians helped keep the practice alive." },
+        ],
+        x: 86, y: 67, radius: 12, interaction: "story", sourceIds: ["unesco-nha-nhac-00074"],
+      },
+    ],
+  },
+  {
+    id: "cham-pottery",
+    number: "04",
+    location: { vi: "Ninh Thuận · Bình Thuận", en: "Ninh Thuận · Bình Thuận" },
+    title: { vi: "Gốm Chăm", en: "Chăm pottery" },
+    subtitle: { vi: "Đất, bàn tay và lửa ngoài trời", en: "Clay, hands and open-air fire" },
+    description: {
+      vi: "Nghề gốm được phụ nữ thực hành và truyền trong gia đình; người thợ đi quanh khối đất để tạo hình thay vì dùng bàn xoay.",
+      en: "Practised and transmitted within families by women, the craft shapes vessels by moving around the clay rather than using a wheel.",
+    },
+    scene: "/scenes/04-cham-pottery.webp",
+    palette: "#e47a3f",
+    sourceIds: ["unesco-cham-pottery-01574"],
+    hotspots: [
+      {
+        id: "local-materials",
+        label: { vi: "Nguyên liệu địa phương", en: "Local materials" },
+        kicker: { vi: "Đất, cát, nước, củi và rơm", en: "Clay, sand, water, wood and straw" },
+        story: {
+          vi: "Hồ sơ UNESCO nêu đất, cát, nước, củi và rơm được thu thập tại địa phương, gắn nghề với môi trường sống của cộng đồng.",
+          en: "The UNESCO file notes that clay, sand, water, firewood and straw are collected locally, tying the craft to its community environment.",
+        },
+        facts: [
+          { vi: "Đô thị hóa đang gây sức ép lên khả năng tiếp cận nguyên liệu.", en: "Urbanization is placing pressure on access to raw materials." },
+          { vi: "Game không hướng dẫn khai thác hay phối trộn nguyên liệu.", en: "The game does not teach extraction or material recipes." },
+        ],
+        x: 15, y: 78, radius: 13, interaction: "story", sourceIds: ["unesco-cham-pottery-01574"],
+      },
+      {
+        id: "hand-shaping",
+        label: { vi: "Tạo hình không bàn xoay", en: "Shaping without a wheel" },
+        kicker: { vi: "Người thợ đi quanh sản phẩm", en: "The maker moves around the piece" },
+        story: {
+          vi: "Người phụ nữ đi vòng quanh sản phẩm để tạo hình. Kỹ năng được truyền cho thế hệ trẻ qua thực hành trực tiếp trong gia đình.",
+          en: "Women move around the piece as they shape it. Knowledge passes to younger generations through hands-on practice within families.",
+        },
+        facts: [
+          { vi: "Hoạt ảnh chỉ chỉ ra hướng chuyển động tổng quát.", en: "The animation shows only the general direction of movement." },
+          { vi: "Không phải bài dạy nghề và không tái tạo bí quyết hạn chế.", en: "It is not craft instruction and reproduces no restricted know-how." },
+        ],
+        x: 49, y: 58, radius: 14, interaction: "animation", sourceIds: ["unesco-cham-pottery-01574"],
+        media: { kind: "animation" },
+      },
+      {
+        id: "open-firing",
+        label: { vi: "Nung ngoài trời", en: "Open-air firing" },
+        kicker: { vi: "Không men, củi và rơm", en: "Unglazed, with wood and straw" },
+        story: {
+          vi: "Sản phẩm không tráng men và được nung ngoài trời bằng củi, rơm trong khoảng bảy đến tám giờ, ở nhiệt độ khoảng 800°C theo hồ sơ UNESCO.",
+          en: "The unglazed pottery is fired outdoors with wood and straw for roughly seven to eight hours at about 800°C, according to UNESCO.",
+        },
+        facts: [
+          { vi: "Thông tin là mô tả tư liệu, không phải hướng dẫn an toàn để tự thực hiện.", en: "This is documentary context, not safety guidance for attempting the process." },
+          { vi: "Di sản được ghi vào Danh sách cần bảo vệ khẩn cấp năm 2022.", en: "The element entered the Urgent Safeguarding List in 2022." },
+        ],
+        x: 78, y: 73, radius: 14, interaction: "animation", sourceIds: ["unesco-cham-pottery-01574"],
+        media: { kind: "animation" },
+      },
+    ],
+  },
+  {
+    id: "don-ca-tai-tu",
+    number: "05",
+    location: { vi: "Nam Bộ", en: "Southern Viet Nam" },
+    title: { vi: "Đờn ca tài tử", en: "Đờn ca tài tử" },
+    subtitle: { vi: "Giai điệu khung và sự ứng tác tinh tế", en: "Skeletal melody and subtle improvisation" },
+    description: {
+      vi: "Loại hình âm nhạc có gốc bác học và dân gian, gắn với đời sống, lao động trên đất và sông nước Nam Bộ.",
+      en: "With scholarly and folk roots, this music is closely connected to life and work across southern lands and waterways.",
+    },
+    scene: "/scenes/05-don-ca-tai-tu.webp",
+    palette: "#42a9a3",
+    sourceIds: ["unesco-don-ca-tai-tu-00733"],
+    hotspots: [
+      {
+        id: "moon-lute",
+        label: { vi: "Đàn kìm", en: "Moon-shaped lute" },
+        kicker: { vi: "Một nhạc cụ trong dàn tài tử", en: "One voice in the tài tử ensemble" },
+        story: {
+          vi: "UNESCO liệt kê đàn hình mặt trăng cùng đàn cò, đàn tranh, đàn tỳ bà, đàn bầu, sáo trúc và bộ gõ trong thực hành Đờn ca tài tử.",
+          en: "UNESCO lists the moon-shaped lute alongside fiddle, zither, pear-shaped lute, monochord, bamboo flute and percussion.",
+        },
+        facts: [
+          { vi: "Mỗi nhạc cụ tham gia vào việc biến hóa giai điệu khung.", en: "Each instrument contributes to variations of the skeletal melody." },
+          { vi: "Hình minh họa không phải sơ đồ cấu tạo nhạc cụ.", en: "The illustration is not an instrument construction diagram." },
+        ],
+        x: 21, y: 69, radius: 13, interaction: "story", sourceIds: ["unesco-don-ca-tai-tu-00733"],
+      },
+      {
+        id: "sixteen-string-zither",
+        label: { vi: "Đàn tranh", en: "Sixteen-string zither" },
+        kicker: { vi: "Biến hóa trên giai điệu khung", en: "Variation over a skeletal melody" },
+        story: {
+          vi: "Người diễn tấu ứng tác, thêm hoa mỹ và biến đổi giai điệu khung cùng các mẫu tiết tấu chính để diễn đạt cảm xúc.",
+          en: "Performers improvise, ornament and vary a skeletal melody and principal rhythmic patterns to express different feelings.",
+        },
+        facts: [
+          { vi: "Nhạc công thường cần ít nhất ba năm để học kỹ thuật cơ bản và các điệu thức.", en: "Musicians generally study at least three years to learn basic technique and musical modes." },
+          { vi: "Bản ghi chính thức được mở tại hồ sơ UNESCO.", en: "The official recording opens at the UNESCO file." },
+        ],
+        x: 51, y: 79, radius: 14, interaction: "audio", sourceIds: ["unesco-don-ca-tai-tu-00733"],
+        media: { kind: "official-link", sourceUrl: "https://ich.unesco.org/en/RL/art-of-n-ca-tai-t-music-and-song-in-southern-viet-nam-00733" },
+      },
+      {
+        id: "riverside-ensemble",
+        label: { vi: "Cuộc đàn bên sông", en: "Riverside gathering" },
+        kicker: { vi: "Âm nhạc trong đời sống cộng đồng", en: "Music within community life" },
+        story: {
+          vi: "Đờn ca tài tử hiện diện trong lễ hội, giỗ chạp và những dịp mừng; âm nhạc gợi lại đời sống và lao động trên đất, sông nước đồng bằng.",
+          en: "Đờn ca tài tử appears at festivals, death anniversaries and celebrations, evoking life and work across the Mekong Delta’s lands and rivers.",
+        },
+        facts: [
+          { vi: "Tri thức truyền bằng nghe, bắt chước và học trực tiếp từ thầy.", en: "Knowledge passes through listening, imitation and direct study with masters." },
+          { vi: "Không gian minh họa đại diện cho tính thân mật, không phải một sự kiện cụ thể.", en: "The illustrated setting conveys intimacy, not a specific event." },
+        ],
+        x: 77, y: 57, radius: 13, interaction: "story", sourceIds: ["unesco-don-ca-tai-tu-00733"],
+      },
+    ],
+  },
+];
+
+export function getStop(id: string) {
+  return stops.find((stop) => stop.id === id);
+}
+
+export function getSource(id: string) {
+  return sources.find((source) => source.id === id);
+}
+
+export const approvedSourceIds = new Set(sources.filter((source) => source.status === "approved").map((source) => source.id));
