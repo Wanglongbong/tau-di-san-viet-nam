@@ -1,4 +1,4 @@
-import type { HeritageStop, SourceRecord } from "@/lib/types";
+import type { AudioAsset, HeritageStop, LocalizedText, SourceRecord } from "@/lib/types";
 
 export const sources: SourceRecord[] = [
   {
@@ -81,6 +81,130 @@ export const sources: SourceRecord[] = [
   },
 ];
 
+const projectCreditsUrl = "https://github.com/Wanglongbong/tau-di-san-viet-nam/blob/main/CREDITS.md";
+
+function originalAudio(
+  id: string,
+  role: AudioAsset["role"],
+  generatorPreset: NonNullable<AudioAsset["generatorPreset"]>,
+  credit: LocalizedText,
+  note: LocalizedText,
+): AudioAsset {
+  return {
+    id,
+    kind: "synthesized",
+    src: null,
+    sourceUrl: projectCreditsUrl,
+    creator: "Tàu Di Sản Việt Nam prototype",
+    license: "MIT (generator code); no sampled recording",
+    credit,
+    role,
+    reviewStatus: "approved-original",
+    note,
+    generatorPreset,
+  };
+}
+
+function officialReference(id: string, sourceUrl: string, credit: LocalizedText, note: LocalizedText): AudioAsset {
+  return {
+    id,
+    kind: "official-source",
+    src: null,
+    sourceUrl,
+    creator: "See performer and producer credits at the official source",
+    license: "Reuse licence not confirmed — streaming/download disabled",
+    credit,
+    role: "official-reference",
+    reviewStatus: "pending-rights",
+    note,
+  };
+}
+
+const caTruEnsemblePreview: AudioAsset = {
+  id: "ca-tru-sound-futures-excerpt",
+  kind: "local-audio",
+  src: "/media/ca-tru-sound-futures.ogg",
+  sourceUrl: "https://commons.wikimedia.org/wiki/File:Ca_Tru_Club_performance.ogv",
+  creator: "Sound Futures",
+  license: "CC BY 3.0",
+  licenseUrl: "https://creativecommons.org/licenses/by/3.0/",
+  credit: {
+    vi: "Trích 22 giây từ bản ghi Sound Futures, CC BY 3.0; đã cắt và chuyển mã sang Opus/Ogg.",
+    en: "22-second excerpt from Sound Futures, CC BY 3.0; trimmed and transcoded to Opus/Ogg.",
+  },
+  role: "heritage-ensemble-excerpt",
+  reviewStatus: "approved-local",
+  note: {
+    vi: "Đây là toàn bộ nhóm Ca trù (giọng hát, đàn đáy và trống), không phải âm thanh riêng lẻ của một nhạc cụ.",
+    en: "This is a Ca trù ensemble (voice, đàn đáy and drum), not an isolated recording of any one instrument.",
+  },
+  durationSeconds: 22,
+  bytes: 281739,
+  sha256: "8ca76c2c114caaec2d82036fd0c8e3338edf6be04ed02870c0382cbc4cad2a8e",
+  technical: "Ogg container; Opus mono; 48 kHz",
+};
+
+export const soundscapes: Record<"carriage" | "quan-ho" | "ca-tru" | "nha-nhac" | "cham-pottery" | "don-ca-tai-tu", AudioAsset> = {
+  carriage: originalAudio(
+    "ambient-carriage",
+    "modern-ambient",
+    "carriage",
+    { vi: "Không khí toa tàu được tổng hợp trong trình duyệt.", en: "Browser-synthesized train-car ambience." },
+    { vi: "Thiết kế âm thanh hiện đại, không phải bản ghi đường sắt hay âm nhạc di sản.", en: "Modern sound design, not a railway field recording or heritage music." },
+  ),
+  "quan-ho": originalAudio(
+    "ambient-kinh-bac-air",
+    "modern-ambient",
+    "kinh-bac-air",
+    { vi: "Không khí nhẹ tại ga Kinh Bắc được tổng hợp trong trình duyệt.", en: "Browser-synthesized light ambience for the Kinh Bắc stop." },
+    { vi: "Không dùng hoặc mô phỏng giai điệu Quan họ.", en: "Uses and imitates no Quan họ melody." },
+  ),
+  "ca-tru": originalAudio(
+    "ambient-hanoi-room",
+    "modern-ambient",
+    "hanoi-room",
+    { vi: "Không khí phòng yên tĩnh được tổng hợp trong trình duyệt.", en: "Browser-synthesized quiet room ambience." },
+    { vi: "Không dùng hoặc mô phỏng thể cách Ca trù.", en: "Uses and imitates no Ca trù form or melody." },
+  ),
+  "nha-nhac": originalAudio(
+    "ambient-hue-courtyard",
+    "modern-ambient",
+    "hue-courtyard",
+    { vi: "Không khí sân thoáng ở ga Huế được tổng hợp trong trình duyệt.", en: "Browser-synthesized open courtyard ambience for the Huế stop." },
+    { vi: "Không dùng hoặc mô phỏng Nhã nhạc hay âm thanh nghi lễ.", en: "Uses and imitates no Nhã nhạc or ceremonial sound." },
+  ),
+  "cham-pottery": originalAudio(
+    "ambient-cham-workyard",
+    "modern-ambient",
+    "cham-workyard",
+    { vi: "Không khí sân làm việc khô thoáng được tổng hợp trong trình duyệt.", en: "Browser-synthesized dry workyard ambience." },
+    { vi: "Không phải bản ghi tại cộng đồng Chăm và không mô phỏng nghi lễ.", en: "Not a Chăm community field recording and does not imitate ritual." },
+  ),
+  "don-ca-tai-tu": originalAudio(
+    "ambient-southern-riverside",
+    "modern-ambient",
+    "southern-riverside",
+    { vi: "Không khí sông nước nhẹ được tổng hợp trong trình duyệt.", en: "Browser-synthesized gentle riverside ambience." },
+    { vi: "Không dùng hoặc mô phỏng giai điệu Đờn ca tài tử.", en: "Uses and imitates no Đờn ca tài tử melody." },
+  ),
+};
+
+const clayWorkFoley = originalAudio(
+  "foley-clay-work",
+  "interpretive-foley",
+  "clay-work",
+  { vi: "Hiệu ứng thao tác đất được tổng hợp trong trình duyệt.", en: "Browser-synthesized clay-handling effect." },
+  { vi: "Hiệu ứng diễn giải hiện đại, không phải bản ghi thực địa và không mô tả bí quyết nghề.", en: "Modern interpretive effect, not a field recording or a claim about restricted craft knowledge." },
+);
+
+const openFireFoley = originalAudio(
+  "foley-open-fire",
+  "interpretive-foley",
+  "open-fire",
+  { vi: "Hiệu ứng lửa nhẹ được tổng hợp trong trình duyệt.", en: "Browser-synthesized gentle fire effect." },
+  { vi: "Hiệu ứng diễn giải hiện đại, không phải bản ghi một lần nung gốm Chăm thực tế.", en: "Modern interpretive effect, not a recording of an actual Chăm pottery firing." },
+);
+
 export const stops: HeritageStop[] = [
   {
     id: "quan-ho",
@@ -95,6 +219,7 @@ export const stops: HeritageStop[] = [
     scene: "/scenes/01-quan-ho.webp",
     palette: "#f0b07a",
     sourceIds: ["unesco-quan-ho-00183"],
+    soundscape: soundscapes["quan-ho"],
     hotspots: [
       {
         id: "round-hat",
@@ -109,6 +234,11 @@ export const stops: HeritageStop[] = [
           { vi: "Minh họa pixel không đại diện cho mọi biến thể địa phương.", en: "The pixel illustration does not represent every local variation." },
         ],
         x: 23, y: 78, radius: 13, interaction: "story", sourceIds: ["unesco-quan-ho-00183"],
+        suggestedQuestions: [
+          { vi: "Trang phục góp phần tạo nên không gian giao tiếp Quan họ như thế nào?", en: "How does dress help shape Quan họ’s social setting?" },
+          { vi: "Hồ sơ UNESCO mô tả trang phục của liền chị và liền anh ra sao?", en: "How does the UNESCO file describe the women’s and men’s dress?" },
+          { vi: "Vì sao minh họa pixel không thể đại diện cho mọi biến thể địa phương?", en: "Why can the pixel illustration not represent every local variation?" },
+        ],
       },
       {
         id: "paired-singing",
@@ -124,6 +254,17 @@ export const stops: HeritageStop[] = [
         ],
         x: 50, y: 51, radius: 12, interaction: "audio", sourceIds: ["unesco-quan-ho-00183"],
         media: { kind: "official-link", sourceUrl: "https://ich.unesco.org/en/RL/quan-h-bc-ninh-folk-songs-00183" },
+        audioPreview: officialReference(
+          "quan-ho-official-recording-reference",
+          "https://ich.unesco.org/en/RL/quan-h-bc-ninh-folk-songs-00183",
+          { vi: "Bản ghi tham chiếu nằm tại hồ sơ UNESCO; chưa được phép sao chép vào game.", en: "The reference recording is on the UNESCO file; local copying is not authorized." },
+          { vi: "Chờ xác nhận quyền từ nghệ nhân/chủ thể quyền trước khi bật phát trực tiếp trong game.", en: "Awaiting permission from performers/rightsholders before in-game playback." },
+        ),
+        suggestedQuestions: [
+          { vi: "Một lượt hát đối đáp Quan họ diễn ra giữa hai nhóm như thế nào?", en: "How does a Quan họ responsive-singing exchange unfold between the two groups?" },
+          { vi: "Giai điệu tương ứng nhưng lời khác tạo nên đối thoại ra sao?", en: "How do related melodies with different lyrics create a dialogue?" },
+          { vi: "Hát đối đáp góp phần gắn kết các làng kết chạ như thế nào?", en: "How does responsive singing strengthen ties between twinned villages?" },
+        ],
       },
       {
         id: "melody-book",
@@ -138,6 +279,11 @@ export const stops: HeritageStop[] = [
           { vi: "Con số là dữ kiện hồ sơ UNESCO, không phải thống kê trực tiếp của game.", en: "These counts come from the UNESCO file, not an independent game survey." },
         ],
         x: 82, y: 79, radius: 11, interaction: "story", sourceIds: ["unesco-quan-ho-00183"],
+        suggestedQuestions: [
+          { vi: "Con số hơn 400 lời ca và 213 biến thể giai điệu cho biết điều gì?", en: "What do the counts of over 400 lyrics and 213 melody variations tell us?" },
+          { vi: "Lời ca Quan họ thường diễn tả những tình cảm nào theo hồ sơ?", en: "Which feelings do Quan họ lyrics express according to the file?" },
+          { vi: "Kho lời ca được lưu truyền qua thực hành và luyện hát ra sao?", en: "How is the repertoire transmitted through practice and singing?" },
+        ],
       },
     ],
   },
@@ -154,6 +300,7 @@ export const stops: HeritageStop[] = [
     scene: "/scenes/02-ca-tru.webp",
     palette: "#ee7b45",
     sourceIds: ["unesco-ca-tru-00309", "commons-ca-tru-sound-futures"],
+    soundscape: soundscapes["ca-tru"],
     hotspots: [
       {
         id: "dan-day",
@@ -172,7 +319,14 @@ export const stops: HeritageStop[] = [
           kind: "audio", src: "/media/ca-tru-sound-futures.ogg", creator: "Sound Futures", license: "CC BY 3.0",
           sourceUrl: "https://commons.wikimedia.org/wiki/File:Ca_Tru_Club_performance.ogv",
           credit: { vi: "Trích 22 giây từ bản ghi của Sound Futures, CC BY 3.0.", en: "22-second excerpt from Sound Futures, CC BY 3.0." },
+          role: "heritage-ensemble-excerpt", reviewStatus: "approved-local",
         },
+        audioPreview: caTruEnsemblePreview,
+        suggestedQuestions: [
+          { vi: "Đàn đáy nâng đỡ giọng hát, phách và trống chầu như thế nào?", en: "How does đàn đáy support the voice, clappers and praise drum?" },
+          { vi: "Vì sao đoạn nghe này được ghi là âm thanh cả nhóm chứ không phải riêng đàn đáy?", en: "Why is this preview labelled as an ensemble rather than isolated đàn đáy?" },
+          { vi: "Các thể cách và thơ truyền thống giữ vai trò gì trong Ca trù?", en: "What roles do musical forms and traditional poetry play in Ca trù?" },
+        ],
       },
       {
         id: "phach",
@@ -188,6 +342,12 @@ export const stops: HeritageStop[] = [
         ],
         x: 52, y: 80, radius: 11, interaction: "animation", sourceIds: ["unesco-ca-tru-00309"],
         media: { kind: "animation" },
+        audioPreview: caTruEnsemblePreview,
+        suggestedQuestions: [
+          { vi: "Ca nương phối hợp giọng hát và nhịp phách như thế nào?", en: "How does the singer coordinate vocal technique with the clappers?" },
+          { vi: "Phách tham gia cấu trúc tiết tấu của Ca trù ra sao?", en: "How do the clappers articulate Ca trù’s rhythmic structure?" },
+          { vi: "Vì sao hoạt ảnh chỉ giúp nhận biết vai trò chứ không dạy kỹ thuật gõ phách?", en: "Why does the animation identify the role without teaching clapper technique?" },
+        ],
       },
       {
         id: "praise-drum",
@@ -202,6 +362,12 @@ export const stops: HeritageStop[] = [
           { vi: "Di sản vẫn cần bảo vệ do số nghệ nhân thành thạo còn ít và cao tuổi.", en: "The tradition remains at risk because skilled practitioners are few and ageing." },
         ],
         x: 81, y: 72, radius: 13, interaction: "story", sourceIds: ["unesco-ca-tru-00309"],
+        audioPreview: caTruEnsemblePreview,
+        suggestedQuestions: [
+          { vi: "Trống chầu tạo điểm nhấn trong cuộc diễn Ca trù như thế nào?", en: "How does the praise drum provide accents in a Ca trù performance?" },
+          { vi: "Trống chầu đối thoại với giọng hát, phách và đàn đáy ra sao?", en: "How does the praise drum interact with voice, clappers and đàn đáy?" },
+          { vi: "Vì sao Ca trù vẫn cần được bảo vệ khẩn cấp?", en: "Why does Ca trù still require urgent safeguarding?" },
+        ],
       },
     ],
   },
@@ -218,6 +384,7 @@ export const stops: HeritageStop[] = [
     scene: "/scenes/03-nha-nhac.webp",
     palette: "#d95d48",
     sourceIds: ["unesco-nha-nhac-00074"],
+    soundscape: soundscapes["nha-nhac"],
     hotspots: [
       {
         id: "great-drum",
@@ -231,7 +398,18 @@ export const stops: HeritageStop[] = [
           { vi: "Người biểu diễn phải tập trung cao để theo đúng từng bước nghi lễ.", en: "Performers maintained intense concentration to follow each ceremonial step." },
           { vi: "Hình minh họa không tái dựng một nghi lễ cụ thể.", en: "The illustration does not reconstruct a specific ceremony." },
         ],
-        x: 17, y: 71, radius: 13, interaction: "story", sourceIds: ["unesco-nha-nhac-00074"],
+        x: 17, y: 71, radius: 13, interaction: "audio", sourceIds: ["unesco-nha-nhac-00074"],
+        audioPreview: officialReference(
+          "nha-nhac-drum-reference",
+          "https://ich.unesco.org/en/RL/nha-nhac-vietnamese-court-music-00074",
+          { vi: "Tư liệu nghe nhìn tham chiếu ở hồ sơ UNESCO; không có bản trống tách riêng được cấp phép.", en: "Reference audiovisual material is on UNESCO; no licensed isolated drum recording is available." },
+          { vi: "Không phát âm thanh giả cho bộ trống nghi lễ; đang chờ xác nhận quyền bản ghi phù hợp.", en: "No fabricated ceremonial drum sound is played; a suitable licensed recording is pending." },
+        ),
+        suggestedQuestions: [
+          { vi: "Bộ trống giữ vị trí nào trong các dàn Đại nhạc được hồ sơ mô tả?", en: "What place does the drum section hold in the large orchestras described by the file?" },
+          { vi: "Vì sao nhạc công phải tập trung cao trong từng bước nghi lễ?", en: "Why did musicians need intense concentration through each ceremonial step?" },
+          { vi: "Minh họa này có giới hạn gì khi nói về một nghi lễ cụ thể?", en: "What are the illustration’s limits when discussing a specific ceremony?" },
+        ],
       },
       {
         id: "court-orchestra",
@@ -247,6 +425,17 @@ export const stops: HeritageStop[] = [
         ],
         x: 52, y: 78, radius: 14, interaction: "audio", sourceIds: ["unesco-nha-nhac-00074"],
         media: { kind: "official-link", sourceUrl: "https://ich.unesco.org/en/RL/nha-nhac-vietnamese-court-music-00074" },
+        audioPreview: officialReference(
+          "nha-nhac-ensemble-reference",
+          "https://ich.unesco.org/en/RL/nha-nhac-vietnamese-court-music-00074",
+          { vi: "Bản ghi dàn nhạc tham chiếu ở hồ sơ UNESCO; chưa được phép sao chép vào game.", en: "The ensemble reference recording is on UNESCO; local copying is not authorized." },
+          { vi: "Chờ thỏa thuận với đơn vị lưu trữ và chủ thể quyền trước khi phát trực tiếp.", en: "Awaiting agreement with the archive and rightsholders before direct playback." },
+        ),
+        suggestedQuestions: [
+          { vi: "Nhã nhạc từng hiện diện trong những dịp nào của triều đình?", en: "Which court occasions historically included Nhã nhạc?" },
+          { vi: "Các nhóm nhạc cụ hơi, dây và bộ gõ cùng tạo nên dàn nhạc ra sao?", en: "How do wind, string and percussion groups form the court ensemble?" },
+          { vi: "Vì sao game chưa phát một bản ghi Nhã nhạc ngay tại điểm này?", en: "Why does the game not yet play a Nhã nhạc recording at this hotspot?" },
+        ],
       },
       {
         id: "ceremonial-door",
@@ -261,6 +450,11 @@ export const stops: HeritageStop[] = [
           { vi: "Những nhạc công còn lại đã góp phần duy trì thực hành.", en: "Surviving court musicians helped keep the practice alive." },
         ],
         x: 86, y: 67, radius: 12, interaction: "story", sourceIds: ["unesco-nha-nhac-00074"],
+        suggestedQuestions: [
+          { vi: "Trong đời sống cung đình, Nhã nhạc truyền đạt những quan niệm nào?", en: "Which ideas did Nhã nhạc convey within court life?" },
+          { vi: "Việc mất bối cảnh cung đình trong thế kỷ XX đe dọa truyền thống ra sao?", en: "How did the loss of court context in the twentieth century threaten the tradition?" },
+          { vi: "Những nhạc công còn lại đã góp phần duy trì thực hành như thế nào?", en: "How did surviving court musicians help sustain the practice?" },
+        ],
       },
     ],
   },
@@ -277,6 +471,7 @@ export const stops: HeritageStop[] = [
     scene: "/scenes/04-cham-pottery.webp",
     palette: "#e47a3f",
     sourceIds: ["unesco-cham-pottery-01574"],
+    soundscape: soundscapes["cham-pottery"],
     hotspots: [
       {
         id: "local-materials",
@@ -291,6 +486,11 @@ export const stops: HeritageStop[] = [
           { vi: "Game không hướng dẫn khai thác hay phối trộn nguyên liệu.", en: "The game does not teach extraction or material recipes." },
         ],
         x: 15, y: 78, radius: 13, interaction: "story", sourceIds: ["unesco-cham-pottery-01574"],
+        suggestedQuestions: [
+          { vi: "Những nguyên liệu địa phương nào được hồ sơ UNESCO nhắc tới?", en: "Which local materials does the UNESCO file identify?" },
+          { vi: "Nguồn nguyên liệu gắn nghề gốm với môi trường sống như thế nào?", en: "How do local materials connect the craft to its environment?" },
+          { vi: "Đô thị hóa tạo sức ép gì lên khả năng tiếp cận nguyên liệu?", en: "How does urbanization pressure access to raw materials?" },
+        ],
       },
       {
         id: "hand-shaping",
@@ -306,6 +506,12 @@ export const stops: HeritageStop[] = [
         ],
         x: 49, y: 58, radius: 14, interaction: "animation", sourceIds: ["unesco-cham-pottery-01574"],
         media: { kind: "animation" },
+        audioPreview: clayWorkFoley,
+        suggestedQuestions: [
+          { vi: "Người thợ tạo hình sản phẩm khi không dùng bàn xoay như thế nào?", en: "How does the maker shape a vessel without using a wheel?" },
+          { vi: "Kỹ năng làm gốm được truyền trong gia đình qua thực hành ra sao?", en: "How is pottery knowledge transmitted through hands-on family practice?" },
+          { vi: "Vì sao hoạt ảnh và hiệu ứng này không được xem là bài dạy nghề?", en: "Why are this animation and effect not a craft tutorial?" },
+        ],
       },
       {
         id: "open-firing",
@@ -321,6 +527,12 @@ export const stops: HeritageStop[] = [
         ],
         x: 78, y: 73, radius: 14, interaction: "animation", sourceIds: ["unesco-cham-pottery-01574"],
         media: { kind: "animation" },
+        audioPreview: openFireFoley,
+        suggestedQuestions: [
+          { vi: "Hồ sơ mô tả quá trình nung ngoài trời ở mức khái quát ra sao?", en: "How does the file describe open-air firing at a general level?" },
+          { vi: "Vì sao dữ kiện về thời gian và nhiệt độ không phải hướng dẫn tự thực hiện?", en: "Why are the stated time and temperature not instructions for attempting the process?" },
+          { vi: "Việc vào Danh sách cần bảo vệ khẩn cấp năm 2022 có ý nghĩa gì?", en: "What does inscription on the Urgent Safeguarding List in 2022 mean?" },
+        ],
       },
     ],
   },
@@ -337,6 +549,7 @@ export const stops: HeritageStop[] = [
     scene: "/scenes/05-don-ca-tai-tu.webp",
     palette: "#42a9a3",
     sourceIds: ["unesco-don-ca-tai-tu-00733"],
+    soundscape: soundscapes["don-ca-tai-tu"],
     hotspots: [
       {
         id: "moon-lute",
@@ -350,7 +563,18 @@ export const stops: HeritageStop[] = [
           { vi: "Mỗi nhạc cụ tham gia vào việc biến hóa giai điệu khung.", en: "Each instrument contributes to variations of the skeletal melody." },
           { vi: "Hình minh họa không phải sơ đồ cấu tạo nhạc cụ.", en: "The illustration is not an instrument construction diagram." },
         ],
-        x: 21, y: 69, radius: 13, interaction: "story", sourceIds: ["unesco-don-ca-tai-tu-00733"],
+        x: 21, y: 69, radius: 13, interaction: "audio", sourceIds: ["unesco-don-ca-tai-tu-00733"],
+        audioPreview: officialReference(
+          "don-ca-tai-tu-moon-lute-reference",
+          "https://ich.unesco.org/en/RL/art-of-n-ca-tai-t-music-and-song-in-southern-viet-nam-00733",
+          { vi: "Tư liệu tham chiếu ở hồ sơ UNESCO; chưa có bản đàn kìm tách riêng được cấp phép.", en: "Reference material is on UNESCO; no licensed isolated moon-lute recording is available." },
+          { vi: "Không dùng âm thanh nhạc cụ khác để giả làm đàn kìm.", en: "No other instrument is substituted or presented as đàn kìm." },
+        ),
+        suggestedQuestions: [
+          { vi: "Đàn kìm đứng cùng những nhạc cụ nào trong dàn tài tử?", en: "Which instruments appear alongside đàn kìm in the tài tử ensemble?" },
+          { vi: "Mỗi nhạc cụ góp phần biến hóa giai điệu khung như thế nào?", en: "How does each instrument contribute to variations of the skeletal melody?" },
+          { vi: "Vì sao hình pixel không được dùng như sơ đồ cấu tạo đàn kìm?", en: "Why should the pixel image not be read as an instrument-construction diagram?" },
+        ],
       },
       {
         id: "sixteen-string-zither",
@@ -366,6 +590,17 @@ export const stops: HeritageStop[] = [
         ],
         x: 51, y: 79, radius: 14, interaction: "audio", sourceIds: ["unesco-don-ca-tai-tu-00733"],
         media: { kind: "official-link", sourceUrl: "https://ich.unesco.org/en/RL/art-of-n-ca-tai-t-music-and-song-in-southern-viet-nam-00733" },
+        audioPreview: officialReference(
+          "don-ca-tai-tu-zither-reference",
+          "https://ich.unesco.org/en/RL/art-of-n-ca-tai-t-music-and-song-in-southern-viet-nam-00733",
+          { vi: "Bản ghi tham chiếu ở hồ sơ UNESCO; chưa có bản đàn tranh trong ngữ cảnh tài tử được cấp phép để phát cục bộ.", en: "The reference recording is on UNESCO; no locally playable licensed đàn tranh recording in tài tử context is available." },
+          { vi: "Không thay bằng bản đàn tranh ngoài ngữ cảnh rồi gắn nhãn Đờn ca tài tử.", en: "An out-of-context zither recording is not substituted and labelled as Đờn ca tài tử." },
+        ),
+        suggestedQuestions: [
+          { vi: "Người diễn tấu biến hóa giai điệu khung bằng cách nào?", en: "How do performers vary and ornament the skeletal melody?" },
+          { vi: "Ứng tác giúp nhạc công diễn đạt cảm xúc khác nhau ra sao?", en: "How does improvisation help musicians express different feelings?" },
+          { vi: "Vì sao người học thường cần ít nhất ba năm cho kỹ thuật cơ bản và điệu thức?", en: "Why do learners generally need at least three years for basic technique and modes?" },
+        ],
       },
       {
         id: "riverside-ensemble",
@@ -380,6 +615,11 @@ export const stops: HeritageStop[] = [
           { vi: "Không gian minh họa đại diện cho tính thân mật, không phải một sự kiện cụ thể.", en: "The illustrated setting conveys intimacy, not a specific event." },
         ],
         x: 77, y: 57, radius: 13, interaction: "story", sourceIds: ["unesco-don-ca-tai-tu-00733"],
+        suggestedQuestions: [
+          { vi: "Đờn ca tài tử hiện diện trong những dịp cộng đồng nào?", en: "Which community occasions include Đờn ca tài tử?" },
+          { vi: "Âm nhạc gợi lại đời sống và lao động sông nước Nam Bộ như thế nào?", en: "How does the music evoke life and work across southern waterways?" },
+          { vi: "Tri thức được truyền qua nghe, bắt chước và học trực tiếp với thầy ra sao?", en: "How is knowledge transmitted through listening, imitation and direct study with masters?" },
+        ],
       },
     ],
   },

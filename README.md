@@ -1,25 +1,41 @@
 # Tàu Di Sản Việt Nam
 
-Trải nghiệm point-and-click góc nhìn thứ nhất đưa người chơi qua năm ga di sản sống từ Bắc vào Nam. Mỗi cảnh là một khung cửa tàu tĩnh; đồ vật phản hồi khi con trỏ đến gần, mở câu chuyện song ngữ, âm thanh/hoạt ảnh và hồ sơ nguồn.
+Một trải nghiệm point-and-click góc nhìn thứ nhất đưa người chơi lên chuyến tàu pixel Bắc–Nam. Người chơi nói hoặc chọn một trong năm ga, khám phá đồ vật trong cảnh và mở hồ sơ song ngữ có nguồn, quyền sử dụng và trạng thái kiểm duyệt rõ ràng.
 
-## Năm ga
+## Trải nghiệm chính
 
-1. Quan họ Kinh Bắc
-2. Ca trù
-3. Nhã nhạc cung đình Huế
-4. Nghệ thuật làm gốm của người Chăm
-5. Đờn ca tài tử Nam Bộ
+- Landing page hiện tại dẫn vào khoang tàu pixel chuyển động nhẹ.
+- Trưởng tàu kiểm vé bằng hội thoại chữ và hỏi điểm đến.
+- Nút giữ để nói ghi tối đa 6 giây, gửi tệp WebM tạm thời để OpenAI phiên âm tiếng Việt, rồi đối chiếu bằng bộ nhận diện ga xác định trước.
+- Năm ga: Quan họ Kinh Bắc, Ca trù Hà Nội, Nhã nhạc Huế, gốm Chăm và Đờn ca tài tử Nam Bộ.
+- Hotspot phát sáng khi con trỏ đến gần; khi mở sẽ phát bản ghi được cấp phép nếu có, hiện hoạt ảnh khái quát hoặc mở hồ sơ tư liệu.
+- Mỗi hồ sơ có ba câu hỏi gợi ý. Trưởng tàu AI chỉ được trả lời từ ngữ cảnh và danh sách nguồn đã duyệt, đồng thời phải trả về mã nguồn hợp lệ.
+- Nhạc nền là soundscape hiện đại, trung tính, được tạo riêng cho trải nghiệm; không được trình bày như âm nhạc di sản.
+- Sổ di sản lưu tiến độ trên thiết bị và có thể xuất metadata JSON.
 
-Mỗi ga có ba hồ sơ tương tác. Tiến độ được lưu cục bộ trong trình duyệt và có thể xuất thành JSON từ **Sổ di sản**.
+## Nguyên tắc văn hóa
 
-## Chạy dự án
+Độ trung thực văn hóa là ràng buộc cao nhất của dự án:
+
+- Không coi nội dung AI là lời nghệ nhân hoặc thẩm quyền cộng đồng.
+- Không mô phỏng bí quyết, nghi lễ hoặc âm thanh nhạc cụ khi chưa có căn cứ và quyền sử dụng rõ ràng.
+- Âm thanh biểu diễn tổng thể phải được ghi nhãn đúng; không gọi một bản hòa tấu là âm thanh riêng của một nhạc cụ.
+- Thiếu nguồn thì hệ thống từ chối trả lời, không đoán.
+- Trước khi dùng tại điểm di sản, toàn bộ nội dung cần được nghệ nhân/chuyên gia và đại diện cộng đồng có thẩm quyền rà soát trực tiếp.
+
+Xem [CREDITS.md](./CREDITS.md) và [research/media-manifest.json](./research/media-manifest.json) để biết nguồn, giấy phép và phạm vi dùng của từng tài sản.
+
+## Chạy cục bộ
 
 Yêu cầu Node.js 22.13 trở lên.
 
 ```bash
 npm install
+cp .env.example .env.local
 npm run dev
 ```
+
+Để bật hỏi đáp và nhận dạng giọng nói, đặt `OPENAI_API_KEY` trong `.env.local`. Không đưa khóa này vào mã nguồn, trình duyệt hoặc GitHub. Nếu không có khóa, toàn bộ phần khám phá vẫn chạy và hỏi đáp chuyển sang chế độ tư liệu tĩnh đã kiểm chứng.
 
 Kiểm tra bản phát hành:
 
@@ -28,18 +44,13 @@ npm run lint
 npm test
 ```
 
-## Trưởng tàu AI
+## API
 
-Sao chép `.env.example` thành `.env.local` và thêm khóa API để bật phần hỏi đáp dùng OpenAI Responses API. Ngữ cảnh gửi cho mô hình chỉ gồm hồ sơ đang mở và các nguồn đã được duyệt. Kết quả bắt buộc theo schema, phải dùng mã nguồn nằm trong hồ sơ; câu hỏi ngoài phạm vi sẽ bị từ chối.
+- `POST /api/transcribe`: nhận `multipart/form-data` gồm `audio`, `language` và `sessionId`; tệp tối đa 3 MB, không được lưu bởi ứng dụng.
+- `POST /api/guide`: nhận ga, hotspot, câu hỏi, ngôn ngữ và `sessionId`; câu trả lời dùng OpenAI Responses API với Structured Outputs.
 
-Không có khóa API, trò chơi vẫn chạy bằng chế độ tư liệu tĩnh đã kiểm chứng. Chế độ này cũng từ chối câu hỏi không liên quan thay vì đoán.
+Giới hạn tốt nhất theo phiên trình duyệt: 6 lượt phiên âm/phút và 12 câu hỏi/phút. Đây là lớp bảo vệ cho prototype, không thay thế rate limiting phân tán ở quy mô sản xuất.
 
-## Nguyên tắc văn hóa và bản quyền
+## Quyền sử dụng
 
-- Không coi nội dung do AI tạo là lời nghệ nhân hoặc thẩm quyền cộng đồng.
-- Không phát hành âm thanh/hình ảnh khi quyền tái sử dụng chưa rõ.
-- Minh họa pixel chỉ tạo bầu không khí từ dữ kiện công khai, không tái dựng nghi lễ hoặc bí quyết hạn chế.
-- Mọi thẻ nội dung hiển thị nguồn, tổ chức kiểm chứng và trạng thái quyền sử dụng.
-- Trước khi dùng cho giáo dục, du lịch hoặc trưng bày công cộng, nội dung cần được nghệ nhân/chuyên gia và đại diện cộng đồng rà soát trực tiếp.
-
-Xem [CREDITS.md](./CREDITS.md) và [research/media-manifest.json](./research/media-manifest.json) để biết nguồn, giấy phép và phạm vi sử dụng từng tài sản.
+Mã nguồn được phát hành theo [MIT License](./LICENSE). Giấy phép MIT **không** áp dụng chung cho nội dung văn hóa, bản ghi, ảnh minh họa hoặc tài sản media; từng tài sản tuân theo điều khoản ghi trong `CREDITS.md` và media manifest.

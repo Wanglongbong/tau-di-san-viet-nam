@@ -14,10 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Tàu Di Sản Việt Nam",
       description: "Chạm vào ký ức đang sống trên chuyến tàu di sản Bắc–Nam.",
-      images: [{ url: "/og.webp", width: 1672, height: 941, alt: "Tàu Di Sản Việt Nam" }],
+      images: [{ url: "/og.png", width: 1734, height: 907, alt: "Khoang Tàu Di Sản Việt Nam trong phong cách pixel" }],
       type: "website",
     },
-    twitter: { card: "summary_large_image", title: "Tàu Di Sản Việt Nam", images: ["/og.webp"] },
+    twitter: { card: "summary_large_image", title: "Tàu Di Sản Việt Nam", images: ["/og.png"] },
   };
 }
 

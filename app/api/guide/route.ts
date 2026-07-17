@@ -2,13 +2,18 @@ import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import { z } from "zod";
 import { approvedSourceIds, getSource, getStop } from "@/lib/heritage";
+import { rateLimitHeaders, takeRateLimit } from "@/lib/server/rate-limit";
+import { sessionIdFromRequest } from "@/lib/server/session";
 import type { GuideResponse, Language } from "@/lib/types";
+
+const GUIDE_REQUESTS_PER_MINUTE = 12;
 
 const requestSchema = z.object({
   stopId: z.string().min(2).max(80),
   hotspotId: z.string().min(2).max(80),
   question: z.string().trim().min(2).max(300),
   language: z.enum(["vi", "en"]),
+  sessionId: z.string().optional(),
 });
 
 const responseSchema = z.object({
@@ -79,23 +84,43 @@ export async function POST(request: Request) {
   try {
     parsed = requestSchema.parse(await request.json());
   } catch {
-    return Response.json(refusal("vi", "invalid-request"), { status: 400 });
+    return Response.json(refusal("vi", "invalid-request"), {
+      status: 400,
+      headers: { "cache-control": "no-store" },
+    });
+  }
+
+  const sessionId = sessionIdFromRequest(request, parsed.sessionId);
+  if (!sessionId) {
+    return Response.json(refusal(parsed.language, "invalid-session"), {
+      status: 400,
+      headers: { "cache-control": "no-store" },
+    });
+  }
+
+  const rateLimit = takeRateLimit("guide", sessionId, GUIDE_REQUESTS_PER_MINUTE);
+  const headers = rateLimitHeaders(rateLimit);
+  if (!rateLimit.allowed) {
+    return Response.json(refusal(parsed.language, "rate-limit-exceeded"), {
+      status: 429,
+      headers,
+    });
   }
 
   const stop = getStop(parsed.stopId);
   const hotspot = stop?.hotspots.find((item) => item.id === parsed.hotspotId);
   if (!stop || !hotspot || hotspot.sourceIds.some((id) => !approvedSourceIds.has(id))) {
-    return Response.json(refusal(parsed.language, "unapproved-record"), { status: 404 });
+    return Response.json(refusal(parsed.language, "unapproved-record"), { status: 404, headers });
   }
 
   if (!process.env.OPENAI_API_KEY) {
     if (!isQuestionGrounded(parsed.question, stop, hotspot)) {
       return Response.json(refusal(parsed.language, "out-of-scope"), {
-        headers: { "cache-control": "no-store" },
+        headers,
       });
     }
     return Response.json(verifiedFallback(parsed.language, parsed.stopId, parsed.hotspotId), {
-      headers: { "cache-control": "no-store" },
+      headers,
     });
   }
 
@@ -114,6 +139,7 @@ export async function POST(request: Request) {
     const response = await client.responses.parse({
       model: process.env.OPENAI_MODEL || "gpt-5.6-luna",
       store: false,
+      safety_identifier: sessionId,
       reasoning: { effort: "low" },
       input: [
         {
@@ -129,17 +155,19 @@ export async function POST(request: Request) {
     });
 
     const output = response.output_parsed;
-    if (!output || !output.grounded) return Response.json(refusal(parsed.language, output?.refusalReason ?? "insufficient-source"));
+    if (!output || !output.grounded) {
+      return Response.json(refusal(parsed.language, output?.refusalReason ?? "insufficient-source"), { headers });
+    }
     const allowed = new Set(hotspot.sourceIds);
     if (output.sourceIds.length === 0 || output.sourceIds.some((id) => !allowed.has(id))) {
-      return Response.json(refusal(parsed.language, "invalid-citation"));
+      return Response.json(refusal(parsed.language, "invalid-citation"), { headers });
     }
 
     const result: GuideResponse = { ...output, mode: "ai" };
-    return Response.json(result, { headers: { "cache-control": "no-store" } });
+    return Response.json(result, { headers });
   } catch {
     return Response.json(verifiedFallback(parsed.language, parsed.stopId, parsed.hotspotId), {
-      headers: { "cache-control": "no-store" },
+      headers,
     });
   }
 }

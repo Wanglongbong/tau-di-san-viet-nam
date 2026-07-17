@@ -1,12 +1,37 @@
 {
   "project": "Tàu Di Sản Việt Nam",
   "updatedAt": "2026-07-17",
-  "policy": "Only media with an explicit reusable licence is served locally. Official-source links are used when redistribution rights are unclear.",
+  "policy": "Only recordings with an explicit reusable licence are served locally. A null audio src is either original browser synthesis or a reference-only item that must not be downloaded or re-hosted. No YouTube extraction or unlicensed substitution is permitted.",
+  "rightsSeparation": "MIT applies to source code only. Each media/content item retains the terms recorded in CREDITS.md and public/media/audio-manifest.json; community cultural rights are not relicensed by the code licence.",
+  "audioInventory": "public/media/audio-manifest.json",
+  "runtimeAudio": {
+    "modernAmbientPresets": [
+      "carriage",
+      "kinh-bac-air",
+      "hanoi-room",
+      "hue-courtyard",
+      "cham-workyard",
+      "southern-riverside"
+    ],
+    "interpretiveFoleyPresets": [
+      "clay-work",
+      "open-fire"
+    ],
+    "implementation": "Synthesized in-browser by MIT-licensed generator code with no external samples.",
+    "culturalBoundary": "Modern neutral sound design only; not heritage music, ritual sound, a community field recording, or a claim about craft technique."
+  },
   "servedAssets": [
     {
-      "path": "public/og.webp",
+      "path": "public/og.png",
       "kind": "original-generated-social-card",
-      "heritageSources": "The five UNESCO files listed in CREDITS.md"
+      "visualScope": "Fictional pixel train interior, ticket conductor, abstract landscape and five-stop route; no ritual reconstruction or specific heritage performance",
+      "generator": "OpenAI ImageGen",
+      "rightsNote": "Project-generated content asset; not covered by the code-only MIT licence and not an artisan endorsement."
+    },
+    {
+      "path": "public/media/audio-manifest.json",
+      "kind": "rights-and-provenance-manifest",
+      "scope": "Local recording, six synthesized ambient presets, two interpretive foley presets, and reference-only pending-rights items"
     },
     {
       "path": "public/media/ca-tru-sound-futures.ogg",
@@ -14,8 +39,13 @@
       "source": "https://commons.wikimedia.org/wiki/File:Ca_Tru_Club_performance.ogv",
       "creator": "Sound Futures",
       "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
       "transformation": "22-second excerpt beginning approximately 8 seconds into the source; audio transcoded to Opus in an Ogg container",
-      "approvedForPrototype": true
+      "bytes": 281739,
+      "sha256": "8ca76c2c114caaec2d82036fd0c8e3338edf6be04ed02870c0382cbc4cad2a8e",
+      "role": "heritage-ensemble-excerpt",
+      "approvedForPrototype": true,
+      "culturalReview": "Source and reuse licence verified; project-level community review still required before on-site release."
     },
     {
       "path": "public/scenes/01-quan-ho.webp",

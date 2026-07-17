@@ -16,6 +16,50 @@ export type SourceRecord = {
   accessedAt: string;
 };
 
+export type AudioReviewStatus =
+  | "approved-local"
+  | "approved-original"
+  | "pending-rights"
+  | "restricted";
+
+export type AudioRole =
+  | "heritage-ensemble-excerpt"
+  | "official-reference"
+  | "modern-ambient"
+  | "interpretive-foley";
+
+/**
+ * Rights metadata is deliberately required even when no file is served.
+ * A null `src` means the source is reference-only or synthesized in-browser;
+ * it must never be treated as permission to download or re-host a recording.
+ */
+export type AudioAsset = {
+  id: string;
+  kind: "local-audio" | "official-source" | "synthesized";
+  src: string | null;
+  sourceUrl: string;
+  creator: string;
+  license: string;
+  licenseUrl?: string;
+  credit: LocalizedText;
+  role: AudioRole;
+  reviewStatus: AudioReviewStatus;
+  note: LocalizedText;
+  durationSeconds?: number;
+  bytes?: number;
+  sha256?: string;
+  technical?: string;
+  generatorPreset?:
+    | "carriage"
+    | "kinh-bac-air"
+    | "hanoi-room"
+    | "hue-courtyard"
+    | "cham-workyard"
+    | "southern-riverside"
+    | "clay-work"
+    | "open-fire";
+};
+
 export type MediaAsset = {
   kind: "audio" | "official-link" | "animation";
   src?: string;
@@ -23,6 +67,8 @@ export type MediaAsset = {
   creator?: string;
   license?: string;
   credit?: LocalizedText;
+  role?: AudioRole;
+  reviewStatus?: AudioReviewStatus;
 };
 
 export type Hotspot = {
@@ -37,6 +83,8 @@ export type Hotspot = {
   interaction: "story" | "audio" | "animation";
   sourceIds: string[];
   media?: MediaAsset;
+  audioPreview?: AudioAsset;
+  suggestedQuestions: [LocalizedText, LocalizedText, LocalizedText];
 };
 
 export type HeritageStop = {
@@ -49,10 +97,12 @@ export type HeritageStop = {
   scene: string;
   palette: string;
   sourceIds: string[];
+  soundscape: AudioAsset;
   hotspots: Hotspot[];
 };
 
 export type GuideRequest = {
+  sessionId: string;
   stopId: string;
   hotspotId: string;
   question: string;

@@ -1,0 +1,185 @@
+{
+  "project": "Tàu Di Sản Việt Nam",
+  "version": 1,
+  "updatedAt": "2026-07-17",
+  "policy": {
+    "vi": "Chỉ phục vụ cục bộ bản ghi có giấy phép tái sử dụng rõ ràng. src bằng null nghĩa là âm thanh được tổng hợp trong trình duyệt hoặc bản ghi chỉ dùng làm tham chiếu và tuyệt đối không được tải/lưu lại.",
+    "en": "Only recordings with an explicit reuse licence are served locally. A null src means either browser synthesis or a reference-only recording that must not be downloaded or re-hosted."
+  },
+  "assets": [
+    {
+      "id": "ca-tru-sound-futures-excerpt",
+      "src": "/media/ca-tru-sound-futures.ogg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ca_Tru_Club_performance.ogv",
+      "creator": "Sound Futures",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "credit": {
+        "vi": "Trích 22 giây từ bản ghi Sound Futures, CC BY 3.0; đã cắt và chuyển mã sang Opus/Ogg.",
+        "en": "22-second excerpt from Sound Futures, CC BY 3.0; trimmed and transcoded to Opus/Ogg."
+      },
+      "role": "heritage-ensemble-excerpt",
+      "reviewStatus": "approved-local",
+      "note": {
+        "vi": "Đoạn trích cả nhóm Ca trù gồm giọng hát, đàn đáy và trống; không phải nhạc cụ tách riêng.",
+        "en": "Ca trù ensemble excerpt with voice, đàn đáy and drum; not an isolated instrument."
+      },
+      "durationSeconds": 22,
+      "bytes": 281739,
+      "sha256": "8ca76c2c114caaec2d82036fd0c8e3338edf6be04ed02870c0382cbc4cad2a8e",
+      "technical": "Ogg container; Opus mono; 48 kHz",
+      "transformation": "Excerpt begins approximately 8 seconds into the 90.5-second source; audio transcoded to Opus in Ogg without remixing."
+    },
+    {
+      "id": "ambient-carriage",
+      "src": null,
+      "sourceUrl": "https://github.com/Wanglongbong/tau-di-san-viet-nam/blob/main/CREDITS.md",
+      "creator": "Tàu Di Sản Việt Nam prototype",
+      "license": "MIT (generator code); no sampled recording",
+      "credit": { "vi": "Không khí toa tàu được tổng hợp trong trình duyệt.", "en": "Browser-synthesized train-car ambience." },
+      "role": "modern-ambient",
+      "reviewStatus": "approved-original",
+      "note": { "vi": "Thiết kế hiện đại, không phải bản ghi đường sắt hay âm nhạc di sản.", "en": "Modern sound design, not a railway field recording or heritage music." },
+      "generatorPreset": "carriage"
+    },
+    {
+      "id": "ambient-kinh-bac-air",
+      "src": null,
+      "sourceUrl": "https://github.com/Wanglongbong/tau-di-san-viet-nam/blob/main/CREDITS.md",
+      "creator": "Tàu Di Sản Việt Nam prototype",
+      "license": "MIT (generator code); no sampled recording",
+      "credit": { "vi": "Không khí nhẹ tại ga Kinh Bắc được tổng hợp trong trình duyệt.", "en": "Browser-synthesized light ambience for the Kinh Bắc stop." },
+      "role": "modern-ambient",
+      "reviewStatus": "approved-original",
+      "note": { "vi": "Không dùng hoặc mô phỏng giai điệu Quan họ.", "en": "Uses and imitates no Quan họ melody." },
+      "generatorPreset": "kinh-bac-air"
+    },
+    {
+      "id": "ambient-hanoi-room",
+      "src": null,
+      "sourceUrl": "https://github.com/Wanglongbong/tau-di-san-viet-nam/blob/main/CREDITS.md",
+      "creator": "Tàu Di Sản Việt Nam prototype",
+      "license": "MIT (generator code); no sampled recording",
+      "credit": { "vi": "Không khí phòng yên tĩnh được tổng hợp trong trình duyệt.", "en": "Browser-synthesized quiet room ambience." },
+      "role": "modern-ambient",
+      "reviewStatus": "approved-original",
+      "note": { "vi": "Không dùng hoặc mô phỏng thể cách Ca trù.", "en": "Uses and imitates no Ca trù form or melody." },
+      "generatorPreset": "hanoi-room"
+    },
+    {
+      "id": "ambient-hue-courtyard",
+      "src": null,
+      "sourceUrl": "https://github.com/Wanglongbong/tau-di-san-viet-nam/blob/main/CREDITS.md",
+      "creator": "Tàu Di Sản Việt Nam prototype",
+      "license": "MIT (generator code); no sampled recording",
+      "credit": { "vi": "Không khí sân thoáng ở ga Huế được tổng hợp trong trình duyệt.", "en": "Browser-synthesized open courtyard ambience for the Huế stop." },
+      "role": "modern-ambient",
+      "reviewStatus": "approved-original",
+      "note": { "vi": "Không dùng hoặc mô phỏng Nhã nhạc hay âm thanh nghi lễ.", "en": "Uses and imitates no Nhã nhạc or ceremonial sound." },
+      "generatorPreset": "hue-courtyard"
+    },
+    {
+      "id": "ambient-cham-workyard",
+      "src": null,
+      "sourceUrl": "https://github.com/Wanglongbong/tau-di-san-viet-nam/blob/main/CREDITS.md",
+      "creator": "Tàu Di Sản Việt Nam prototype",
+      "license": "MIT (generator code); no sampled recording",
+      "credit": { "vi": "Không khí sân làm việc khô thoáng được tổng hợp trong trình duyệt.", "en": "Browser-synthesized dry workyard ambience." },
+      "role": "modern-ambient",
+      "reviewStatus": "approved-original",
+      "note": { "vi": "Không phải bản ghi tại cộng đồng Chăm và không mô phỏng nghi lễ.", "en": "Not a Chăm community field recording and does not imitate ritual." },
+      "generatorPreset": "cham-workyard"
+    },
+    {
+      "id": "ambient-southern-riverside",
+      "src": null,
+      "sourceUrl": "https://github.com/Wanglongbong/tau-di-san-viet-nam/blob/main/CREDITS.md",
+      "creator": "Tàu Di Sản Việt Nam prototype",
+      "license": "MIT (generator code); no sampled recording",
+      "credit": { "vi": "Không khí sông nước nhẹ được tổng hợp trong trình duyệt.", "en": "Browser-synthesized gentle riverside ambience." },
+      "role": "modern-ambient",
+      "reviewStatus": "approved-original",
+      "note": { "vi": "Không dùng hoặc mô phỏng giai điệu Đờn ca tài tử.", "en": "Uses and imitates no Đờn ca tài tử melody." },
+      "generatorPreset": "southern-riverside"
+    },
+    {
+      "id": "foley-clay-work",
+      "src": null,
+      "sourceUrl": "https://github.com/Wanglongbong/tau-di-san-viet-nam/blob/main/CREDITS.md",
+      "creator": "Tàu Di Sản Việt Nam prototype",
+      "license": "MIT (generator code); no sampled recording",
+      "credit": { "vi": "Hiệu ứng thao tác đất được tổng hợp trong trình duyệt.", "en": "Browser-synthesized clay-handling effect." },
+      "role": "interpretive-foley",
+      "reviewStatus": "approved-original",
+      "note": { "vi": "Không phải bản ghi thực địa và không mô tả bí quyết nghề.", "en": "Not a field recording or a claim about restricted craft knowledge." },
+      "generatorPreset": "clay-work"
+    },
+    {
+      "id": "foley-open-fire",
+      "src": null,
+      "sourceUrl": "https://github.com/Wanglongbong/tau-di-san-viet-nam/blob/main/CREDITS.md",
+      "creator": "Tàu Di Sản Việt Nam prototype",
+      "license": "MIT (generator code); no sampled recording",
+      "credit": { "vi": "Hiệu ứng lửa nhẹ được tổng hợp trong trình duyệt.", "en": "Browser-synthesized gentle fire effect." },
+      "role": "interpretive-foley",
+      "reviewStatus": "approved-original",
+      "note": { "vi": "Không phải bản ghi một lần nung gốm Chăm thực tế.", "en": "Not a recording of an actual Chăm pottery firing." },
+      "generatorPreset": "open-fire"
+    },
+    {
+      "id": "quan-ho-official-recording-reference",
+      "src": null,
+      "sourceUrl": "https://ich.unesco.org/en/RL/quan-h-bc-ninh-folk-songs-00183",
+      "creator": "See performer and producer credits at the official source",
+      "license": "Reuse licence not confirmed — streaming/download disabled",
+      "credit": { "vi": "Bản ghi tham chiếu nằm tại hồ sơ UNESCO; chưa được phép sao chép vào game.", "en": "The reference recording is on the UNESCO file; local copying is not authorized." },
+      "role": "official-reference",
+      "reviewStatus": "pending-rights",
+      "note": { "vi": "Chờ xác nhận quyền từ nghệ nhân/chủ thể quyền.", "en": "Awaiting permission from performers/rightsholders." }
+    },
+    {
+      "id": "nha-nhac-drum-reference",
+      "src": null,
+      "sourceUrl": "https://ich.unesco.org/en/RL/nha-nhac-vietnamese-court-music-00074",
+      "creator": "See performer and producer credits at the official source",
+      "license": "Reuse licence not confirmed — streaming/download disabled",
+      "credit": { "vi": "Tư liệu tham chiếu ở hồ sơ UNESCO; chưa có bản trống tách riêng được cấp phép.", "en": "Reference material is on UNESCO; no licensed isolated drum recording is available." },
+      "role": "official-reference",
+      "reviewStatus": "pending-rights",
+      "note": { "vi": "Không phát âm thanh giả cho bộ trống nghi lễ.", "en": "No fabricated ceremonial drum sound is played." }
+    },
+    {
+      "id": "nha-nhac-ensemble-reference",
+      "src": null,
+      "sourceUrl": "https://ich.unesco.org/en/RL/nha-nhac-vietnamese-court-music-00074",
+      "creator": "See performer and producer credits at the official source",
+      "license": "Reuse licence not confirmed — streaming/download disabled",
+      "credit": { "vi": "Bản ghi dàn nhạc tham chiếu ở hồ sơ UNESCO; chưa được phép sao chép vào game.", "en": "The ensemble reference recording is on UNESCO; local copying is not authorized." },
+      "role": "official-reference",
+      "reviewStatus": "pending-rights",
+      "note": { "vi": "Chờ thỏa thuận với đơn vị lưu trữ và chủ thể quyền.", "en": "Awaiting agreement with the archive and rightsholders." }
+    },
+    {
+      "id": "don-ca-tai-tu-moon-lute-reference",
+      "src": null,
+      "sourceUrl": "https://ich.unesco.org/en/RL/art-of-n-ca-tai-t-music-and-song-in-southern-viet-nam-00733",
+      "creator": "See performer and producer credits at the official source",
+      "license": "Reuse licence not confirmed — streaming/download disabled",
+      "credit": { "vi": "Tư liệu tham chiếu ở hồ sơ UNESCO; chưa có bản đàn kìm tách riêng được cấp phép.", "en": "Reference material is on UNESCO; no licensed isolated moon-lute recording is available." },
+      "role": "official-reference",
+      "reviewStatus": "pending-rights",
+      "note": { "vi": "Không dùng âm thanh nhạc cụ khác để giả làm đàn kìm.", "en": "No other instrument is substituted or presented as đàn kìm." }
+    },
+    {
+      "id": "don-ca-tai-tu-zither-reference",
+      "src": null,
+      "sourceUrl": "https://ich.unesco.org/en/RL/art-of-n-ca-tai-t-music-and-song-in-southern-viet-nam-00733",
+      "creator": "See performer and producer credits at the official source",
+      "license": "Reuse licence not confirmed — streaming/download disabled",
+      "credit": { "vi": "Chưa có bản đàn tranh trong ngữ cảnh tài tử được cấp phép để phát cục bộ.", "en": "No locally playable licensed đàn tranh recording in tài tử context is available." },
+      "role": "official-reference",
+      "reviewStatus": "pending-rights",
+      "note": { "vi": "Không thay bằng bản đàn tranh ngoài ngữ cảnh rồi gắn nhãn Đờn ca tài tử.", "en": "An out-of-context zither recording is not substituted and labelled as Đờn ca tài tử." }
+    }
+  ]
+}
