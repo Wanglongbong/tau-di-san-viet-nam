@@ -17,7 +17,10 @@ test("ships the carriage, grounded train artwork, voice routing, suggested quest
     readFile(new URL("public/train/heritage-express.webp", projectRoot)),
   ]);
 
-  assert.match(ui, /"landing" \| "carriage" \| "travelling" \| "heritage"/);
+  assert.match(ui, /"landing" \| "carriage" \| "travelling" \| "heritage" \| "ending"/);
+  assert.match(ui, /Chạm vào ký ức đang sống\./);
+  assert.match(ui, /finishJourney/);
+  assert.match(ui, /className="ending-screen"/);
   assert.match(ui, /new MediaRecorder/);
   assert.match(ui, /MAX_RECORDING_MS = 6_000/);
   assert.match(ui, /MAX_RECORDING_BYTES = 3 \* 1024 \* 1024/);
@@ -42,6 +45,7 @@ test("ships the carriage, grounded train artwork, voice routing, suggested quest
   assert.match(css, /\.conductor-character/);
   assert.match(css, /\.travel-track-image/);
   assert.match(css, /\.travel-train-image/);
+  assert.match(css, /\.ending-cover-image/);
   assert.doesNotMatch(css, /\.pixel-conductor|\.travel-rail-glow/);
   assert.match(css, /\.hotspot\.near/);
   assert.match(css, /prefers-reduced-motion/);

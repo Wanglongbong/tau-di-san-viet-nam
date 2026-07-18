@@ -14,7 +14,7 @@ import type { CSSProperties } from "react";
 import { getSource, stops } from "@/lib/heritage";
 import type { GuideResponse, HeritageStop, Hotspot, Language, LocalizedText } from "@/lib/types";
 
-type JourneyPhase = "landing" | "carriage" | "travelling" | "heritage";
+type JourneyPhase = "landing" | "carriage" | "travelling" | "heritage" | "ending";
 type TranscriptionStatus = "matched" | "ambiguous" | "no-match";
 
 type AudioPreview = {
@@ -97,6 +97,7 @@ const copy = {
     source: "Mở nguồn gốc",
     next: "Ga kế tiếp",
     previous: "Ga trước",
+    finishJourney: "Kết thúc hành trình",
     askTitle: "Hỏi Trưởng tàu AI",
     askHint: "Chỉ trả lời từ hồ sơ đang mở và luôn dẫn nguồn.",
     askPlaceholder: "Vì sao chi tiết này quan trọng?",
@@ -150,6 +151,12 @@ const copy = {
     backLanding: "Về trang đầu",
     travellingTo: "ĐANG RỜI KHOANG · ĐI ĐẾN",
     neutralSound: "Không gian âm thanh trung tính đang phát",
+    endingKicker: "HÀNH TRÌNH KHÉP LẠI · DI SẢN TIẾP TỤC SỐNG",
+    endingTitle: "Tàu Di Sản Việt Nam",
+    endingTagline: "Chạm vào ký ức đang sống.",
+    endingBody: "Những gì bạn vừa mở không chỉ thuộc về quá khứ — đó là tri thức vẫn đang được cộng đồng trao truyền hôm nay.",
+    replayJourney: "Đi lại hành trình",
+    returnLastStop: "Trở lại ga cuối",
   },
   en: {
     brand: "HERITAGE EXPRESS",
@@ -168,6 +175,7 @@ const copy = {
     source: "Open primary source",
     next: "Next stop",
     previous: "Previous stop",
+    finishJourney: "Complete the journey",
     askTitle: "Ask the AI conductor",
     askHint: "Answers only from the open record, with sources.",
     askPlaceholder: "Why does this detail matter?",
@@ -221,6 +229,12 @@ const copy = {
     backLanding: "Back to the opening",
     travellingTo: "LEAVING THE CARRIAGE · BOUND FOR",
     neutralSound: "Neutral environmental sound is playing",
+    endingKicker: "THE JOURNEY CLOSES · HERITAGE LIVES ON",
+    endingTitle: "Viet Nam Heritage Express",
+    endingTagline: "Touch living memory.",
+    endingBody: "What you have opened does not belong only to the past — it is knowledge communities continue to transmit today.",
+    replayJourney: "Travel again",
+    returnLastStop: "Return to the final stop",
   },
 };
 
@@ -634,6 +648,7 @@ export function HeritageGame({ voiceApiMode = "mock" }: { voiceApiMode?: "mock" 
         setOpenHotspot(null);
         stopPreview();
       } else if (phase === "carriage") setPhase("landing");
+      else if (phase === "ending") setPhase("heritage");
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -719,6 +734,21 @@ export function HeritageGame({ voiceApiMode = "mock" }: { voiceApiMode?: "mock" 
     setArchiveOpen(false);
     setOpenHotspot(null);
     setPhase("landing");
+  }
+
+  function finishJourney() {
+    stopPreview();
+    setArchiveOpen(false);
+    setOpenHotspot(null);
+    setActiveHotspotId(null);
+    setPhase("ending");
+  }
+
+  function replayJourney() {
+    stopPreview();
+    setStopIndex(0);
+    setPendingStopIndex(0);
+    setPhase("carriage");
   }
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
@@ -811,7 +841,9 @@ export function HeritageGame({ voiceApiMode = "mock" }: { voiceApiMode?: "mock" 
           <p>{ui.illustration}</p>
           <div className="station-controls">
             <button disabled={stopIndex === 0 || phase === "travelling"} onClick={() => beginTravel(stopIndex - 1)}>← {ui.previous}</button>
-            <button disabled={stopIndex === experienceStops.length - 1 || phase === "travelling"} onClick={() => beginTravel(stopIndex + 1)}>{ui.next} →</button>
+            {stopIndex === experienceStops.length - 1
+              ? <button className="finish-journey-button" onClick={finishJourney}>{ui.finishJourney} →</button>
+              : <button disabled={phase === "travelling"} onClick={() => beginTravel(stopIndex + 1)}>{ui.next} →</button>}
           </div>
         </div>
       </section>
@@ -820,6 +852,7 @@ export function HeritageGame({ voiceApiMode = "mock" }: { voiceApiMode?: "mock" 
       {phase === "landing" && <Intro language={language} onLanguage={setLanguage} onStart={() => { enableAmbient(); setPhase("carriage"); }} />}
       {phase === "carriage" && <Carriage language={language} muted={muted} sessionId={sessionId} voiceApiMode={voiceApiMode} onLanguage={setLanguage} onToggleMuted={toggleMuted} onBack={resetToLanding} onDestination={beginTravel} onAudioActivate={enableAmbient} />}
       {phase === "travelling" && <TravelScreen stop={pendingStop} language={language} />}
+      {phase === "ending" && <Ending language={language} onLanguage={setLanguage} onReplay={replayJourney} onReturn={() => setPhase("heritage")} />}
       {phase === "heritage" && <div className="ambient-disclosure" role="note">♪ {ui.neutralSound}<span>{ui.ambientNote}</span></div>}
       {openHotspot && <RecordDrawer
         key={`${stop.id}:${openHotspot.id}`}
@@ -834,6 +867,38 @@ export function HeritageGame({ voiceApiMode = "mock" }: { voiceApiMode?: "mock" 
       {archiveOpen && <Archive language={language} visited={visited} onClose={() => setArchiveOpen(false)} />}
     </main>
   );
+}
+
+function Ending({
+  language,
+  onLanguage,
+  onReplay,
+  onReturn,
+}: {
+  language: Language;
+  onLanguage: (language: Language) => void;
+  onReplay: () => void;
+  onReturn: () => void;
+}) {
+  const ui = copy[language];
+  return <section className="ending-screen" aria-labelledby="ending-title">
+    <Image className="ending-cover-image" src="/og.png" alt="" fill priority unoptimized sizes="100vw" aria-hidden="true" />
+    <div className="ending-vignette" aria-hidden="true" />
+    <div className="ending-language" aria-label={language === "vi" ? "Chọn ngôn ngữ" : "Choose language"}>
+      <button className={language === "vi" ? "active" : ""} aria-pressed={language === "vi"} onClick={() => onLanguage("vi")}>VI</button>
+      <button className={language === "en" ? "active" : ""} aria-pressed={language === "en"} onClick={() => onLanguage("en")}>EN</button>
+    </div>
+    <div className="ending-copy">
+      <span>{ui.endingKicker}</span>
+      <h1 id="ending-title" className="sr-only">{ui.endingTitle}</h1>
+      <p className="ending-tagline">{ui.endingTagline}</p>
+      <p className="ending-body">{ui.endingBody}</p>
+      <div className="ending-actions">
+        <button className="ending-primary" onClick={onReplay}>{ui.replayJourney}<b>↻</b></button>
+        <button className="ending-secondary" onClick={onReturn}>← {ui.returnLastStop}</button>
+      </div>
+    </div>
+  </section>;
 }
 
 function Intro({ language, onLanguage, onStart }: { language: Language; onLanguage: (language: Language) => void; onStart: () => void }) {
