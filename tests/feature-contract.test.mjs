@@ -41,6 +41,12 @@ test("ships the carriage, grounded train artwork, voice routing, suggested quest
   assert.ok((ui.match(/\bunoptimized\b/g) || []).length >= 7);
   assert.match(ui, /story-dialogue/);
   assert.match(ui, /story-mic-row/);
+  assert.match(ui, /const scorePatterns/);
+  assert.match(ui, /createBuffer\(1, context\.sampleRate \* 12/);
+  assert.match(ui, /score\.loop = true/);
+  assert.match(ui, /Nhạc nền hành trình đang phát/);
+  assert.match(ui, /className="station-direction station-previous"/);
+  assert.match(ui, /className="station-direction station-next"/);
   assert.doesNotMatch(ui, /travel-rail-glow/);
   assert.match(css, /\.conductor-character/);
   assert.match(css, /\.travel-track-image/);
@@ -49,6 +55,9 @@ test("ships the carriage, grounded train artwork, voice routing, suggested quest
   assert.doesNotMatch(css, /\.pixel-conductor|\.travel-rail-glow/);
   assert.match(css, /\.hotspot\.near/);
   assert.match(css, /prefers-reduced-motion/);
+  assert.match(css, /\.scene-wrap::before/);
+  assert.match(css, /min-width: 721px.*max-width: 1100px.*orientation: portrait/s);
+  assert.match(css, /env\(safe-area-inset-bottom/);
   assert.doesNotMatch(css, /\.pixel-train-side/);
   assert.ok(cover.byteLength > 500_000);
   assert.ok(landscape.byteLength > 250_000);

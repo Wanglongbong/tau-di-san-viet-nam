@@ -52,8 +52,9 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 .route-bar button.completed i::after { content: ""; display: block; width: 3px; height: 3px; background: #0d110f; margin: 2px; }
 .route-bar button span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
 
-.scene-wrap { position: relative; min-height: calc(100vh - 126px); background: #080a09; padding: 18px 26px 74px; }
-.scene { max-width: 1600px; margin: 0 auto; height: calc(100vh - 218px); min-height: 520px; max-height: 900px; aspect-ratio: 16 / 9; position: relative; background-position: center; background-size: cover; background-repeat: no-repeat; overflow: hidden; border: 1px solid rgba(214,173,103,.28); box-shadow: 0 25px 80px rgba(0,0,0,.48); image-rendering: pixelated; }
+.scene-wrap { position: relative; min-height: calc(100vh - 126px); overflow: hidden; isolation: isolate; background: #080a09; padding: 18px 26px 74px; }
+.scene-wrap::before { content: ""; position: absolute; z-index: 0; inset: -28px; display: none; background: linear-gradient(rgba(5,8,6,.48),rgba(5,8,6,.7)), var(--scene-image) center/cover no-repeat; filter: blur(18px) saturate(.82); transform: scale(1.08); }
+.scene { z-index: 1; max-width: 1600px; margin: 0 auto; height: calc(100vh - 218px); min-height: 520px; max-height: 900px; aspect-ratio: 16 / 9; position: relative; background-position: center; background-size: cover; background-repeat: no-repeat; overflow: hidden; border: 1px solid rgba(214,173,103,.28); box-shadow: 0 25px 80px rgba(0,0,0,.48); image-rendering: pixelated; }
 .scene::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,7,6,.68), transparent 30%, transparent 70%, rgba(5,7,6,.48)), linear-gradient(180deg, rgba(4,5,4,.45), transparent 30%, transparent 70%, rgba(4,5,4,.72)); pointer-events: none; z-index: 1; }
 .train-frame { position: absolute; inset: 18px 26px 74px; max-width: 1600px; margin: auto; z-index: 10; pointer-events: none; }
 .train-frame span { position: absolute; display: block; background: linear-gradient(90deg, #15100c, #3b2718 30%, #15100c); box-shadow: inset 0 0 0 2px rgba(214,173,103,.12), 0 0 20px rgba(0,0,0,.65); }
@@ -89,7 +90,8 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 .scene-footer > div:first-child span { font: 8px var(--mono); text-transform: uppercase; }
 .scene-footer p { margin: 0; text-align: center; font-size: 9px; }
 .station-controls { display: flex; gap: 8px; }
-.station-controls button { border: 1px solid var(--line); background: #101412; color: var(--muted); height: 34px; padding: 0 12px; font-size: 9px; }
+.station-controls button { border: 1px solid var(--line); background: #101412; color: var(--muted); height: 34px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; font-size: 9px; }
+.station-controls button em { color: inherit; font: normal 9px var(--sans); }
 .station-controls button:last-child { border-color: rgba(214,173,103,.45); color: var(--gold); }
 .station-controls .finish-journey-button { border-color: var(--gold); background: rgba(214,173,103,.12); color: #f2cf8c; box-shadow: inset 0 -2px var(--gold); }
 .station-controls .finish-journey-button:hover { background: var(--gold); color: #11140f; }
@@ -218,34 +220,48 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
   .route-bar { padding-inline: 35px; }.route-rail { left: 70px; right: 70px; }
 }
 
+@media (min-width: 721px) and (max-width: 1100px) and (orientation: portrait) {
+  .intro-screen::before, .ending-vignette { background: linear-gradient(180deg, rgba(4,7,5,.24), transparent 25% 56%, rgba(4,7,5,.94)); }
+  .intro-cover-image, .ending-cover-image { top: 5vh !important; right: auto !important; bottom: auto !important; left: 0 !important; width: 100% !important; height: auto !important; object-fit: contain; object-position: center; }
+  .intro-copy { bottom: 66px; }
+  .ending-copy { bottom: 28px; }
+  .scene-wrap { min-height: calc(100dvh - 126px); padding: 18px 18px 30px; }
+  .scene-wrap::before { display: block; }
+  .scene { height: auto; min-height: 0; max-height: none; aspect-ratio: 16 / 9; }
+  .train-frame { top: 18px; right: 18px; bottom: auto; left: 18px; height: calc((100vw - 36px) * .5625); max-width: none; margin: 0; }
+  .scene-footer { position: relative; left: auto; right: auto; bottom: auto; width: 100%; height: 54px; margin: 10px 0 0; }
+  .ambient-disclosure { bottom: 24px; }
+}
+
 @media (max-width: 720px) {
-  .topbar { grid-template-columns: 1fr auto; padding: 0 12px; }.journey-status { display: none; }.wordmark small { display: none; }.archive-button { font-size: 0; padding: 0 7px; }.archive-button span { font-size: 9px; }
+  .topbar { height: calc(64px + env(safe-area-inset-top)); grid-template-columns: 1fr auto; padding: env(safe-area-inset-top) 12px 0; }.journey-status { display: none; }.wordmark small { display: none; }.archive-button { font-size: 0; padding: 0 7px; }.archive-button span { font-size: 9px; }
   .route-bar { height: 54px; padding-inline: 10px; }.route-rail { left: 35px; right: 35px; top: 20px; }.route-bar button span { font-size: 0; }.route-bar button span::first-letter { font-size: 8px; }
   .scene-wrap { padding: 8px 8px 86px; }.scene { min-height: 63vh; aspect-ratio: auto; background-position: center; }.train-frame { inset: 8px 8px 86px; }.frame-left,.frame-right{width:9px}.frame-top,.frame-bottom{height:9px}
   .scene-heading { left: 24px; top: 23px; }.scene-heading h1 { font-size: 42px; }.scene-heading p { font-size: 13px; }.instruction { display: none; }
   .hotspot { --radius: 74px !important; }.hotspot-label { min-width: 150px; }.hotspot-label small { display: none; }.hotspot-label b { font-size: 13px; }
-  .scene-footer { left: 12px; right: 12px; bottom: 15px; height: 60px; grid-template-columns: auto 1fr; }.scene-footer p { display: none; }.station-controls { grid-column: 2; justify-content: end; }.station-controls button { font-size: 0; width: 38px; }.station-controls button::first-letter { font-size: 16px; }
+  .scene-footer { left: 12px; right: 12px; bottom: calc(15px + env(safe-area-inset-bottom)); height: 60px; grid-template-columns: auto 1fr; }.scene-footer p { display: none; }.station-controls { grid-column: 2; justify-content: end; }.station-controls button { width: 42px; min-width: 42px; height: 42px; padding: 0; }.station-controls button em { display: none; }.station-controls button span { font: 700 17px var(--mono); }
   .travel-curtain { inset: 8px 8px 86px; }.travel-curtain b { font-size: 38px; }
   .intro-screen::before { background: linear-gradient(180deg, rgba(4,7,5,.22), transparent 22% 49%, rgba(4,7,5,.96) 83%); }
-  .intro-cover-image { top: 11vh !important; right: auto !important; bottom: auto !important; left: -12.5% !important; width: 125% !important; height: auto !important; object-fit: contain; object-position: center; }
-  .intro-copy { left: 12px; right: 12px; bottom: 48px; width: auto; padding: 17px 17px 19px; }
+  .intro-cover-image { top: 10vh !important; right: auto !important; bottom: auto !important; left: -12.5% !important; width: 125% !important; height: auto !important; object-fit: contain; object-position: center; }
+  .intro-copy { left: 12px; right: 12px; bottom: calc(48px + env(safe-area-inset-bottom)); width: auto; padding: 17px 17px 19px; }
   .intro-copy > p { font-size: 11px; line-height: 1.55; }
   .intro-actions { margin-top: 13px; }
   .intro-actions > button { min-height: 46px; width: 100%; justify-content: space-between; }
-  .intro-brand { top: 14px; left: 14px; }
+  .intro-brand { top: calc(14px + env(safe-area-inset-top)); left: 14px; }
   .intro-brand b { display: none; }
-  .intro-language-top { top: 13px; right: 14px; }
+  .intro-language-top { top: calc(13px + env(safe-area-inset-top)); right: 14px; }
   .intro-source { justify-content: flex-start; padding-left: 15px; white-space: nowrap; overflow: hidden; gap: 13px; font-size: 6px; }
-  .ending-cover-image { top: 11vh !important; right: auto !important; bottom: auto !important; left: -12.5% !important; width: 125% !important; height: auto !important; object-fit: contain; object-position: center; }
-  .ending-language { top: 13px; right: 14px; }
-  .ending-copy { bottom: 14px; width: calc(100vw - 24px); padding: 16px 14px 18px; }
+  .ending-cover-image { top: 10vh !important; right: auto !important; bottom: auto !important; left: -12.5% !important; width: 125% !important; height: auto !important; object-fit: contain; object-position: center; }
+  .ending-language { top: calc(13px + env(safe-area-inset-top)); right: 14px; }
+  .ending-copy { bottom: calc(14px + env(safe-area-inset-bottom)); width: calc(100vw - 24px); padding: 16px 14px 18px; }
   .ending-copy > span { font-size: 6px; line-height: 1.45; }
   .ending-tagline { margin-top: 10px; font-size: 32px; }
   .ending-body { font-size: 10px; }
   .ending-actions { flex-direction: column; }
   .ending-actions button { width: 100%; justify-content: center; }
-  .station-controls .finish-journey-button { width: auto; min-width: 112px; padding-inline: 8px; font-size: 7px; }
-  .station-controls .finish-journey-button::first-letter { font-size: inherit; }
+  .station-controls .finish-journey-button { width: auto; min-width: 126px; padding-inline: 9px; }
+  .station-controls .finish-journey-button em { display: inline; font: 700 7px var(--mono); text-transform: uppercase; }
+  .station-controls .finish-journey-button span { font-size: 12px; }
   .record-heading { padding-inline: 22px; }.record-heading h2 { font-size: 43px; }.fact-list,.media-card,.craft-animation,.guide-box { margin-left: 22px; margin-right: 22px; }.source-stack { padding-left: 22px; padding-right: 22px; }
   .archive-overlay { padding: 25px 16px; }.archive-grid { grid-template-columns: 1fr; }.archive-overlay footer { align-items: flex-start; flex-direction: column; gap: 16px; }
 }
@@ -449,9 +465,11 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 }
 
 @media (max-width: 620px) {
-  .carriage-toolbar { height: 52px; padding-inline: 13px; }.carriage-brand b { display: none; }
-  .conductor-character { right: -11vw; top: 4vh; height: 50dvh; }
-  .conductor-panel.story-dialogue { max-height: 61dvh; padding: 15px 14px 19px; }
+  .carriage-toolbar { height: calc(52px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 13px 0; }.carriage-brand b { display: none; }
+  .carriage-backdrop, .conductor-character { animation: none; }
+  .carriage-stage::after { background: linear-gradient(180deg, rgba(4,7,5,.08), transparent 30%, rgba(4,7,5,.68) 62%, rgba(4,7,5,.95)); }
+  .conductor-character { right: -5vw; top: calc(5vh + env(safe-area-inset-top)); height: 47dvh; }
+  .conductor-panel.story-dialogue { max-height: 61dvh; padding: 15px 14px calc(19px + env(safe-area-inset-bottom)); }
   .dialogue-label { margin-top: 8px; }
   .conductor-panel h1 { margin: 10px 0 7px; font-size: 28px; line-height: 1; }
   .conductor-panel > p { font-size: 10px; line-height: 1.45; }
@@ -461,7 +479,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
   .travel-copy { width: calc(100% - 28px); margin-top: -38vh; padding: 22px 16px; }.travel-copy h1 { font-size: 48px; }
   .travel-train-image { width: 195vw; bottom: 17.4%; }
   .travel-landscape { object-position: 56% bottom; }
-  .ambient-disclosure { left: 12px; bottom: 84px; max-width: 190px; }
+  .ambient-disclosure { left: 12px; bottom: calc(84px + env(safe-area-inset-bottom)); max-width: 190px; }
   .direct-audio-card > button { grid-template-columns: 62px 1fr; }
 }
 
