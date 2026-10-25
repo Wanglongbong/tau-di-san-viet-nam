@@ -1318,6 +1318,8 @@ export function HeritageGame() {
           onLanguage={setLanguage}
           onToggleMuted={toggleMuted}
           onVolumeChange={handleVolumeChange}
+          onEnterFullscreen={enterExperienceFullscreen}
+          onExitFullscreen={exitExperienceFullscreen}
           onStart={() => {
             if (fullscreenMode === "off") void enterExperienceFullscreen();
             enableAmbient();
@@ -1763,6 +1765,8 @@ function Intro({
   onLanguage,
   onToggleMuted,
   onVolumeChange,
+  onEnterFullscreen,
+  onExitFullscreen,
   onStart,
 }: {
   language: Language;
@@ -1771,12 +1775,33 @@ function Intro({
   onLanguage: (language: Language) => void;
   onToggleMuted: () => void;
   onVolumeChange: (vol: number) => void;
+  onEnterFullscreen: () => Promise<void>;
+  onExitFullscreen: () => Promise<void>;
   onStart: () => void;
 }) {
   const ui = copy[language];
   const [guideOpen, setGuideOpen] = useState(false);
   const [cinemaOpen, setCinemaOpen] = useState(false);
+  const cinemaOwnsFullscreenRef = useRef(false);
   const { entries, addEntry } = useGuestbookFeed();
+
+  async function openCinema() {
+    const fullscreenDocument = document as Document & { webkitFullscreenElement?: Element | null };
+    cinemaOwnsFullscreenRef.current = !(
+      document.fullscreenElement || fullscreenDocument.webkitFullscreenElement
+    );
+    if (cinemaOwnsFullscreenRef.current) await onEnterFullscreen();
+    playPaperSfx({ muted, volume });
+    setCinemaOpen(true);
+  }
+
+  function closeCinema() {
+    setCinemaOpen(false);
+    if (cinemaOwnsFullscreenRef.current) {
+      cinemaOwnsFullscreenRef.current = false;
+      void onExitFullscreen();
+    }
+  }
 
   return <section className="intro-screen" aria-labelledby="intro-title">
     <Image className="intro-cover-image" src="/og.webp" alt="Tàu Di Sản Việt Nam — Chạm vào ký ức đang sống" fill priority unoptimized sizes="100vw" />
@@ -1806,12 +1831,12 @@ function Intro({
       <div className="intro-actions">
         <button type="button" className="intro-start-button" onClick={onStart}>{ui.start}<span>→</span></button>
         <button type="button" className="intro-guide-button" onClick={() => { playPaperSfx({ muted, volume }); setGuideOpen(true); }}><span>📜</span> {ui.guideButton}</button>
-        <button type="button" className="intro-tribute-button" onClick={() => { playPaperSfx({ muted, volume }); setCinemaOpen(true); }}><span>🎬</span> {ui.tributeButton}</button>
+        <button type="button" className="intro-tribute-button" onClick={openCinema}><span>🎬</span> {ui.tributeButton}</button>
       </div>
     </div>
     <div className="intro-source"><span>●</span> 05 UNESCO FILES <i /> 15 VERIFIED RECORDS <i /> NO CULTURAL FABRICATION</div>
     {guideOpen && <JourneyGuideModal language={language} entryContext="intro" onClose={() => setGuideOpen(false)} onStart={() => { setGuideOpen(false); onStart(); }} />}
-    {cinemaOpen && <FloatingWishesScreen language={language} entries={entries} onClose={() => setCinemaOpen(false)} onAddEntry={addEntry} muted={muted} volume={volume} returnSoundtrack="none" />}
+    {cinemaOpen && <FloatingWishesScreen language={language} entries={entries} onClose={closeCinema} onAddEntry={addEntry} muted={muted} volume={volume} returnSoundtrack="none" />}
   </section>;
 }
 
