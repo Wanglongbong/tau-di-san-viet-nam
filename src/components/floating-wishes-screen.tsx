@@ -6,6 +6,7 @@ import { playClickSfx, playPaperSfx } from "@/lib/sound-effects";
 import {
   playCinemaDavid,
   exitCinemaToGoldenEmbers,
+  stopEndingMusic,
   updateEndingMusicVolume,
 } from "@/lib/ending-music";
 import type { GuestbookEntry, NewGuestbookEntry } from "@/lib/guestbook";
@@ -17,6 +18,7 @@ interface FloatingWishesScreenProps {
   onAddEntry?: (newEntry: NewGuestbookEntry) => void | Promise<void>;
   muted: boolean;
   volume: number;
+  returnSoundtrack: "ending" | "none";
 }
 
 export function FloatingWishesScreen({
@@ -26,6 +28,7 @@ export function FloatingWishesScreen({
   onAddEntry,
   muted,
   volume,
+  returnSoundtrack,
 }: FloatingWishesScreenProps) {
   const [isPaused, setIsPaused] = useState(false);
   const [speedMultiplier, setSpeedMultiplier] = useState<1 | 1.6 | 0.6>(1);
@@ -53,7 +56,8 @@ export function FloatingWishesScreen({
       updateEndingMusicVolume({ muted: true, volume });
     }
     return () => {
-      exitCinemaToGoldenEmbers({ muted, volume });
+      if (returnSoundtrack === "ending") exitCinemaToGoldenEmbers({ muted, volume });
+      else stopEndingMusic();
     };
   }, []);
 

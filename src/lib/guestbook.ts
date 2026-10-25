@@ -92,97 +92,6 @@ export const NATIONALITIES = [
 
 export const QUICK_EMOJIS = ["🚂", "🏮", "🎶", "🇻🇳", "🪕", "🍵", "☕", "❤️", "✨", "👏", "📜", "🌸", "🪷", "🔥", "🏺", "🎫"];
 
-export const SEED_GUESTBOOK: GuestbookEntry[] = [
-  {
-    id: "seed-1",
-    name: "Minh Trang",
-    character: "👩‍🌾",
-    characterName: "Thiếu nữ Áo tứ thân",
-    countryCode: "VN",
-    countryName: "Việt Nam",
-    flag: "🇻🇳",
-    content: "Âm nhạc ngũ cung và đồ họa pixel quá đỗi cảm xúc! Mong em tiếp tục phát triển thêm các chặng miền Tây và Tây Nguyên nhé ❤️🚂",
-    timestamp: "Vừa xong",
-  },
-  {
-    id: "seed-2",
-    name: "Hoàng Nam",
-    character: "🪕",
-    characterName: "Cây Đàn Nguyệt",
-    countryCode: "VN",
-    countryName: "Việt Nam",
-    flag: "🇻🇳",
-    content: "Một tác phẩm nghệ thuật số tôn vinh di sản quá đỗi tự hào và tinh tế. Từng nốt đàn tranh, nhịp gõ phách ca trù chạm đến trái tim! 🏮✨",
-    timestamp: "1 giờ trước",
-  },
-  {
-    id: "seed-3",
-    name: "Alexandre",
-    character: "🎒",
-    characterName: "Du khách Lữ hành",
-    countryCode: "FR",
-    countryName: "Pháp",
-    flag: "🇫🇷",
-    content: "Superbe projet interactif sur le patrimoine vietnamien ! Les détails sonores de Ca Trù et Nha Nhac sont magnifiques ✨",
-    timestamp: "Hôm qua",
-  },
-  {
-    id: "seed-4",
-    name: "Bác Ba Đờn",
-    character: "🧓",
-    characterName: "Bác Nghệ nhân Đờn ca",
-    countryCode: "VN",
-    countryName: "Việt Nam",
-    flag: "🇻🇳",
-    content: "Rất vui khi thấy người trẻ vẫn gìn giữ và truyền tải nét đẹp Đờn ca tài tử Nam Bộ hay như vầy. Chúc tác giả nhiều lửa nghề!",
-    timestamp: "2 ngày trước",
-  },
-  {
-    id: "seed-5",
-    name: "Kenji Sato",
-    character: "🧑‍🎓",
-    characterName: "Lữ khách Quốc tế",
-    countryCode: "JP",
-    countryName: "Nhật Bản",
-    flag: "🇯🇵",
-    content: "ベトナムの伝統文化を美しく体験できる素晴らしいゲームです！陶芸体験がとても楽しかった 🏮✨",
-    timestamp: "3 ngày trước",
-  },
-  {
-    id: "seed-6",
-    name: "Thu Thảo",
-    character: "🏺",
-    characterName: "Bình gốm Cổ truyền",
-    countryCode: "VN",
-    countryName: "Việt Nam",
-    flag: "🇻🇳",
-    content: "Cảm ơn chuyến tàu di sản đã đưa mình qua từng miền đất nước. Tiếng gốm nung Bàu Trúc và điệu hò Quan họ Bắc Ninh thật tuyệt vời! 🌸",
-    timestamp: "4 ngày trước",
-  },
-  {
-    id: "seed-7",
-    name: "David Miller",
-    character: "🌏",
-    characterName: "Bạn bè Quốc tế",
-    countryCode: "US",
-    countryName: "Hoa Kỳ",
-    flag: "🇺🇸",
-    content: "Proud of Vietnamese cultural roots! The pixel craftsmanship, interactive stamps and zither soundtrack are truly extraordinary. 👏",
-    timestamp: "5 ngày trước",
-  },
-  {
-    id: "seed-8",
-    name: "Thầy giáo Nguyễn Văn An",
-    character: "👴",
-    characterName: "Cụ đồ Thư pháp",
-    countryCode: "VN",
-    countryName: "Việt Nam",
-    flag: "🇻🇳",
-    content: "Mỗi con tem được đóng dấu như khắc ghi thêm một mảnh ghép hồn quê hương vào tâm trí. Trân quý từng tư liệu và thanh âm! 📜❤️",
-    timestamp: "1 tuần trước",
-  },
-];
-
 type GuestbookRow = {
   id: string;
   legacy_id: string | null;
@@ -200,7 +109,7 @@ export type NewGuestbookEntry = Omit<GuestbookEntry, "id" | "timestamp" | "creat
 
 const LEGACY_STORAGE_KEY = "tau_di_san_guestbook";
 const CACHE_STORAGE_KEY = "tau_di_san_guestbook_supabase_cache_v1";
-const MIGRATION_STORAGE_KEY = "tau_di_san_guestbook_supabase_migrated_v1";
+const MIGRATION_STORAGE_PREFIX = "tau_di_san_guestbook_supabase_migrated_v2";
 const LAST_SUBMIT_STORAGE_KEY = "tau_di_san_guestbook_last_submit";
 const LOCAL_EVENT = "tau_di_san_guestbook_updated";
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim();
@@ -270,7 +179,7 @@ function writeCache(entries: GuestbookEntry[]) {
 }
 
 export function getCachedGuestbook(): GuestbookEntry[] {
-  if (typeof window === "undefined") return SEED_GUESTBOOK;
+  if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(CACHE_STORAGE_KEY);
     if (raw) {
@@ -283,7 +192,7 @@ export function getCachedGuestbook(): GuestbookEntry[] {
       if (Array.isArray(parsed) && parsed.length > 0) return parsed;
     }
   } catch {}
-  return SEED_GUESTBOOK;
+  return [];
 }
 
 export function isGuestbookOnline() {
@@ -297,7 +206,8 @@ export async function listGuestbookEntries(): Promise<GuestbookEntry[]> {
   const { data, error } = await client
     .from("guestbook_entries")
     .select("id, legacy_id, name, character, character_name, country_code, country_name, flag, content, created_at")
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .order("id", { ascending: false });
 
   if (error) throw error;
   const entries = ((data ?? []) as GuestbookRow[]).map(rowToEntry);
@@ -345,35 +255,71 @@ function legacyCreatedAt(id: string): string | undefined {
   return Number.isFinite(value) ? new Date(value).toISOString() : undefined;
 }
 
+function migrationStorageKey() {
+  if (!supabaseUrl) return MIGRATION_STORAGE_PREFIX;
+  try {
+    const projectRef = new URL(supabaseUrl).hostname.split(".")[0];
+    return `${MIGRATION_STORAGE_PREFIX}:${projectRef}`;
+  } catch {
+    return MIGRATION_STORAGE_PREFIX;
+  }
+}
+
+function readStoredEntries(storageKey: string): GuestbookEntry[] {
+  try {
+    const raw = localStorage.getItem(storageKey);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed)
+      ? parsed.filter(
+          (entry): entry is GuestbookEntry =>
+            Boolean(entry?.id) &&
+            Boolean(entry?.content?.trim()) &&
+            !String(entry.id).startsWith("seed-") &&
+            !String(entry.legacyId ?? "").startsWith("seed-"),
+        )
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 export async function migrateLegacyGuestbookEntries(): Promise<number> {
   const client = getSupabase();
   if (!client || typeof window === "undefined") return 0;
-  if (localStorage.getItem(MIGRATION_STORAGE_KEY) === "done") return 0;
+  const completedKey = migrationStorageKey();
+  if (localStorage.getItem(completedKey) === "done") return 0;
 
-  let legacyEntries: GuestbookEntry[] = [];
-  try {
-    const raw = localStorage.getItem(LEGACY_STORAGE_KEY);
-    const parsed = raw ? JSON.parse(raw) : [];
-    if (Array.isArray(parsed)) {
-      legacyEntries = parsed.filter(
-        (entry): entry is GuestbookEntry =>
-          Boolean(entry?.id) &&
-          !String(entry.id).startsWith("seed-") &&
-          Boolean(entry?.content?.trim()),
-      );
-    }
-  } catch {}
+  const storedEntries = [...readStoredEntries(CACHE_STORAGE_KEY), ...readStoredEntries(LEGACY_STORAGE_KEY)];
+  const uniqueEntries = Array.from(
+    new Map(storedEntries.map((entry) => [entry.legacyId ?? entry.id, entry])).values(),
+  );
+  const cachedRows = uniqueEntries
+    .filter((entry) => UUID_PATTERN.test(entry.id))
+    .map((entry) => ({
+      id: entry.id,
+      ...entryToRow(entry, entry.legacyId ?? `cache-${entry.id}`, entry.createdAt),
+    }));
+  const legacyRows = uniqueEntries
+    .filter((entry) => !UUID_PATTERN.test(entry.id))
+    .map((entry) => entryToRow(entry, entry.legacyId ?? entry.id, entry.createdAt ?? legacyCreatedAt(entry.id)));
 
-  if (legacyEntries.length > 0) {
-    const rows = legacyEntries.map((entry) => entryToRow(entry, entry.id, legacyCreatedAt(entry.id)));
+  if (cachedRows.length > 0) {
     const { error } = await client
       .from("guestbook_entries")
-      .upsert(rows, { onConflict: "legacy_id", ignoreDuplicates: true });
+      .upsert(cachedRows, { onConflict: "id", ignoreDuplicates: true });
+    if (error) throw error;
+  }
+  if (legacyRows.length > 0) {
+    const { error } = await client
+      .from("guestbook_entries")
+      .upsert(legacyRows, { onConflict: "legacy_id", ignoreDuplicates: true });
     if (error) throw error;
   }
 
-  localStorage.setItem(MIGRATION_STORAGE_KEY, "done");
-  return legacyEntries.length;
+  localStorage.setItem(completedKey, "done");
+  return uniqueEntries.length;
 }
 
 export function formatGuestbookTimestamp(entry: GuestbookEntry, language: "vi" | "en") {

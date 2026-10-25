@@ -1,22 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import type { Language } from "@/lib/types";
 import { playClickSfx, playPaperSfx } from "@/lib/sound-effects";
 import { ThankYouDiorama } from "./thank-you-diorama";
 import { FloatingWishesScreen } from "./floating-wishes-screen";
 import {
-  type GuestbookEntry,
   type AvatarOption,
   AVATAR_CATEGORIES,
   DEFAULT_AVATARS,
   NATIONALITIES,
   QUICK_EMOJIS,
-  createGuestbookEntry,
   formatGuestbookTimestamp,
-  getCachedGuestbook,
-  listGuestbookEntries,
-  migrateLegacyGuestbookEntries,
-  subscribeGuestbook,
 } from "@/lib/guestbook";
+import { useGuestbookFeed } from "@/hooks/use-guestbook-feed";
 
 interface SupportModalProps {
   language: Language;
@@ -26,26 +21,7 @@ interface SupportModalProps {
 }
 
 export function SupportModal({ language, onClose, muted, volume }: SupportModalProps) {
-  // Guestbook State
-  const [guestbook, setGuestbook] = useState<GuestbookEntry[]>(() => getCachedGuestbook());
-
-  useEffect(() => {
-    let active = true;
-    const unsubscribe = subscribeGuestbook((updated) => {
-      if (active) setGuestbook(updated);
-    });
-    void (async () => {
-      try {
-        await migrateLegacyGuestbookEntries();
-        const loaded = await listGuestbookEntries();
-        if (active) setGuestbook(loaded);
-      } catch {}
-    })();
-    return () => {
-      active = false;
-      unsubscribe();
-    };
-  }, []);
+  const { entries: guestbook, addEntry } = useGuestbookFeed();
 
   const [authorName, setAuthorName] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState<AvatarOption>(DEFAULT_AVATARS[0]);
@@ -78,7 +54,7 @@ export function SupportModal({ language, onClose, muted, volume }: SupportModalP
     setIsSubmitting(true);
     setSubmitError("");
     try {
-      const saved = await createGuestbookEntry({
+      await addEntry({
         name: authorName.trim() || (language === "vi" ? "Lữ khách phương xa" : "Anonymous Passenger"),
         character: selectedAvatar.icon,
         characterName: language === "vi" ? selectedAvatar.labelVi : selectedAvatar.labelEn,
@@ -87,7 +63,6 @@ export function SupportModal({ language, onClose, muted, volume }: SupportModalP
         flag: selectedNation.flag,
         content: feedbackText.trim(),
       });
-      setGuestbook((current) => [saved, ...current.filter((entry) => entry.id !== saved.id)]);
       setFeedbackText("");
       setAuthorName("");
       setSentSuccess(true);
@@ -519,12 +494,10 @@ export function SupportModal({ language, onClose, muted, volume }: SupportModalP
           language={language}
           entries={guestbook}
           onClose={() => setIsFloatingWishesOpen(false)}
-          onAddEntry={async (newEntry) => {
-            const saved = await createGuestbookEntry(newEntry);
-            setGuestbook((current) => [saved, ...current.filter((entry) => entry.id !== saved.id)]);
-          }}
+          onAddEntry={addEntry}
           muted={muted ?? false}
           volume={volume ?? 1}
+          returnSoundtrack="ending"
         />
       )}
     </div>

@@ -173,13 +173,17 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
   line-height: 1.55;
   font-weight: 500;
 }
-.intro-actions { display: flex; align-items: center; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
-.intro-actions > button.intro-start-button { min-height: 56px; padding: 0 26px; background: var(--gold); color: #0b0d0c; border: 0; font-size: 16px; font-weight: 850; display: flex; align-items: center; gap: 24px; box-shadow: 6px 6px 0 #4c2c1f; letter-spacing: 0.02em; }
+.intro-actions { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; gap: 10px; margin-top: 20px; }
+.intro-actions > button { width: 100%; min-width: 0; justify-content: space-between; }
+.intro-actions > button.intro-start-button { min-height: 56px; padding: 0 18px; background: var(--gold); color: #0b0d0c; border: 0; font-size: 15px; font-weight: 850; display: flex; align-items: center; gap: 14px; box-shadow: 6px 6px 0 #4c2c1f; letter-spacing: 0.02em; }
 .intro-actions > button.intro-start-button:hover { background: #e5c27e; transform: translate(-1px,-1px); }
 .intro-actions > button.intro-start-button span { font-size: 22px; }
-.intro-actions > button.intro-guide-button { min-height: 56px; padding: 0 20px; background: rgba(18, 23, 19, 0.88); color: var(--gold); border: 1px solid rgba(214, 173, 103, 0.5); font-weight: 700; display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; backdrop-filter: blur(6px); transition: all 0.2s ease; box-shadow: 4px 4px 0 rgba(0,0,0,0.5); }
+.intro-actions > button.intro-guide-button { min-height: 56px; padding: 0 14px; background: rgba(18, 23, 19, 0.88); color: var(--gold); border: 1px solid rgba(214, 173, 103, 0.5); font-weight: 700; display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; backdrop-filter: blur(6px); transition: all 0.2s ease; box-shadow: 4px 4px 0 rgba(0,0,0,0.5); }
 .intro-actions > button.intro-guide-button:hover { background: rgba(30, 38, 32, 0.95); border-color: var(--gold); color: #fff; transform: translate(-1px,-1px); }
 .intro-actions > button.intro-guide-button span { font-size: 17px; }
+.intro-actions > button.intro-tribute-button { min-height: 56px; padding: 0 14px; background: linear-gradient(135deg, rgba(82, 28, 22, .94), rgba(36, 18, 15, .94)); color: #f7d48d; border: 1px solid rgba(224, 150, 78, .72); font-weight: 750; display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; backdrop-filter: blur(6px); transition: all .2s ease; box-shadow: 4px 4px 0 rgba(51, 12, 9, .72), inset 0 0 18px rgba(214, 173, 103, .06); }
+.intro-actions > button.intro-tribute-button:hover { background: linear-gradient(135deg, rgba(112, 35, 27, .98), rgba(53, 23, 17, .98)); border-color: #f2c979; color: #fff7df; transform: translate(-1px,-1px); box-shadow: 4px 4px 0 rgba(193, 97, 45, .45), 0 0 18px rgba(214, 173, 103, .16); }
+.intro-actions > button.intro-tribute-button span { font-size: 17px; filter: drop-shadow(0 0 7px rgba(247, 190, 104, .55)); }
 .intro-actions > button.intro-donate-button { min-height: 56px; padding: 0 20px; background: rgba(36, 22, 16, 0.88); color: #f4be78; border: 1px solid rgba(224, 150, 78, 0.55); font-weight: 700; display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; backdrop-filter: blur(6px); transition: all 0.2s ease; box-shadow: 4px 4px 0 rgba(0,0,0,0.5); }
 .intro-actions > button.intro-donate-button:hover { background: rgba(56, 30, 20, 0.98); border-color: #f7ba63; color: #fff; transform: translate(-1px,-1px); box-shadow: 4px 4px 0 rgba(193, 97, 45, 0.45); }
 .intro-actions > button.intro-donate-button span { font-size: 17px; }
@@ -802,8 +806,9 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
   .intro-cover-image { top: 10vh !important; right: auto !important; bottom: auto !important; left: -12.5% !important; width: 125% !important; height: auto !important; object-fit: contain; object-position: center; }
   .intro-copy { left: 12px; right: 12px; bottom: calc(48px + env(safe-area-inset-bottom)); width: auto; padding: 20px 20px 22px; }
   .intro-copy > p { font-size: 15px; line-height: 1.65; }
-  .intro-actions { margin-top: 16px; }
-  .intro-actions > button { min-height: 52px; width: 100%; justify-content: space-between; font-size: 15px; }
+  .intro-actions { grid-template-columns: 1fr; margin-top: 16px; }
+  .intro-actions > button { min-height: 52px; width: 100%; justify-content: flex-start; gap: 12px; text-align: left; white-space: normal; font-size: 15px; }
+  .intro-actions > button.intro-start-button { justify-content: space-between; }
   .intro-ending-highlight { margin-top: 13px; padding: 10px 12px; gap: 9px; }
   .intro-ending-highlight p { font-size: 12.5px; }
   .intro-brand { top: calc(14px + env(safe-area-inset-top)); left: 14px; }
@@ -5975,7 +5980,8 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 
   .intro-actions > button.intro-start-button,
   .intro-actions > button.intro-guide-button,
-  .intro-actions > button.intro-donate-button {
+  .intro-actions > button.intro-donate-button,
+  .intro-actions > button.intro-tribute-button {
     width: auto;
     min-height: 42px;
     padding-inline: 18px;
@@ -6983,7 +6989,8 @@ body.heritage-fullscreen-fallback .game-shell {
 
   .intro-actions > button.intro-start-button,
   .intro-actions > button.intro-guide-button,
-  .intro-actions > button.intro-donate-button {
+  .intro-actions > button.intro-donate-button,
+  .intro-actions > button.intro-tribute-button {
     width: 100%;
     min-height: 49px;
     padding-inline: 15px;
@@ -8226,7 +8233,8 @@ body.heritage-fullscreen-fallback .game-shell {
 
   .intro-actions > button.intro-start-button,
   .intro-actions > button.intro-guide-button,
-  .intro-actions > button.intro-donate-button {
+  .intro-actions > button.intro-donate-button,
+  .intro-actions > button.intro-tribute-button {
     min-height: 37px;
     padding-inline: 12px;
     font-size: 9px;

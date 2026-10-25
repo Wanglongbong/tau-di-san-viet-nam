@@ -15,6 +15,8 @@ import { JourneyGuideModal } from "@/components/JourneyGuideModal";
 import { SupportModal } from "@/components/support-modal";
 import { ThankYouDiorama } from "@/components/thank-you-diorama";
 import { GalleryWishesMarquee } from "@/components/gallery-wishes-marquee";
+import { FloatingWishesScreen } from "@/components/floating-wishes-screen";
+import { useGuestbookFeed } from "@/hooks/use-guestbook-feed";
 import { getSource, stops } from "@/lib/heritage";
 import { downloadPassportJson, downloadPassportPdf } from "@/lib/passport-export";
 import type { PassportRecord, PassportSeal } from "@/lib/passport-export";
@@ -168,6 +170,7 @@ const copy = {
     resetConfirm: "Xóa tiến trình · Chơi mới",
     guide: "Cẩm nang hành trình A-Z",
     guideButton: "Cẩm nang & Lộ trình 📜",
+    tributeButton: "Màn chiếu tri ân",
   },
   en: {
     brand: "HERITAGE EXPRESS",
@@ -254,6 +257,7 @@ const copy = {
     resetConfirm: "Clear progress · Start new",
     guide: "Journey Guide A-Z",
     guideButton: "Guide & Story 📜",
+    tributeButton: "Tribute Credits",
   },
 };
 
@@ -1771,6 +1775,8 @@ function Intro({
 }) {
   const ui = copy[language];
   const [guideOpen, setGuideOpen] = useState(false);
+  const [cinemaOpen, setCinemaOpen] = useState(false);
+  const { entries, addEntry } = useGuestbookFeed();
 
   return <section className="intro-screen" aria-labelledby="intro-title">
     <Image className="intro-cover-image" src="/og.webp" alt="Tàu Di Sản Việt Nam — Chạm vào ký ức đang sống" fill priority unoptimized sizes="100vw" />
@@ -1800,10 +1806,12 @@ function Intro({
       <div className="intro-actions">
         <button type="button" className="intro-start-button" onClick={onStart}>{ui.start}<span>→</span></button>
         <button type="button" className="intro-guide-button" onClick={() => { playPaperSfx({ muted, volume }); setGuideOpen(true); }}><span>📜</span> {ui.guideButton}</button>
+        <button type="button" className="intro-tribute-button" onClick={() => { playPaperSfx({ muted, volume }); setCinemaOpen(true); }}><span>🎬</span> {ui.tributeButton}</button>
       </div>
     </div>
     <div className="intro-source"><span>●</span> 05 UNESCO FILES <i /> 15 VERIFIED RECORDS <i /> NO CULTURAL FABRICATION</div>
     {guideOpen && <JourneyGuideModal language={language} entryContext="intro" onClose={() => setGuideOpen(false)} onStart={() => { setGuideOpen(false); onStart(); }} />}
+    {cinemaOpen && <FloatingWishesScreen language={language} entries={entries} onClose={() => setCinemaOpen(false)} onAddEntry={addEntry} muted={muted} volume={volume} returnSoundtrack="none" />}
   </section>;
 }
 

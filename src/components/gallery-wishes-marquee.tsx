@@ -1,20 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import type { Language } from "@/lib/types";
-import { playClickSfx, playPaperSfx } from "@/lib/sound-effects";
+import { playPaperSfx } from "@/lib/sound-effects";
 import {
-  type GuestbookEntry,
   type AvatarOption,
   DEFAULT_AVATARS,
   NATIONALITIES,
-  createGuestbookEntry,
   formatGuestbookTimestamp,
-  getCachedGuestbook,
-  listGuestbookEntries,
-  migrateLegacyGuestbookEntries,
-  subscribeGuestbook,
 } from "@/lib/guestbook";
+import { useGuestbookFeed } from "@/hooks/use-guestbook-feed";
 import { FloatingWishesScreen } from "./floating-wishes-screen";
 
 interface GalleryWishesMarqueeProps {
@@ -29,7 +24,7 @@ export function GalleryWishesMarquee({
   muted,
   volume,
 }: GalleryWishesMarqueeProps) {
-  const [entries, setEntries] = useState<GuestbookEntry[]>(() => getCachedGuestbook());
+  const { entries, status, addEntry } = useGuestbookFeed();
   const [isCinemaOpen, setIsCinemaOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [guestbookError, setGuestbookError] = useState("");
@@ -41,32 +36,6 @@ export function GalleryWishesMarquee({
   const [selectedNation] = useState(NATIONALITIES[0]);
   const [feedbackText, setFeedbackText] = useState("");
   const [sentSuccess, setSentSuccess] = useState(false);
-
-  useEffect(() => {
-    let active = true;
-    const unsubscribe = subscribeGuestbook((updated) => {
-      if (active) setEntries(updated);
-    });
-    void (async () => {
-      try {
-        await migrateLegacyGuestbookEntries();
-        const loaded = await listGuestbookEntries();
-        if (active) setEntries(loaded);
-      } catch {
-        if (active) {
-          setGuestbookError(
-            language === "vi"
-              ? "Chưa kết nối được sổ lưu bút chung. Bạn vẫn có thể xem bản đã lưu gần nhất."
-              : "The shared guestbook is temporarily unavailable. Showing the latest saved copy.",
-          );
-        }
-      }
-    })();
-    return () => {
-      active = false;
-      unsubscribe();
-    };
-  }, []);
 
   async function handleSubmitFeedback(e: React.FormEvent) {
     e.preventDefault();
@@ -86,7 +55,7 @@ export function GalleryWishesMarquee({
     setIsSubmitting(true);
     setGuestbookError("");
     try {
-      const saved = await createGuestbookEntry({
+      await addEntry({
         name: authorName.trim() || (language === "vi" ? "Lữ khách phương xa" : "Anonymous Passenger"),
         character: selectedAvatar.icon,
         characterName: language === "vi" ? selectedAvatar.labelVi : selectedAvatar.labelEn,
@@ -95,7 +64,6 @@ export function GalleryWishesMarquee({
         flag: selectedNation.flag,
         content: feedbackText.trim(),
       });
-      setEntries((current) => [saved, ...current.filter((entry) => entry.id !== saved.id)]);
       localStorage.setItem("tau_di_san_guestbook_last_submit", String(Date.now()));
       setFeedbackText("");
       setAuthorName("");
@@ -214,10 +182,12 @@ export function GalleryWishesMarquee({
           </button>
         </div>
 
-        {guestbookError && (
+        {(guestbookError || status === "error") && (
           <div className="compact-success-toast animate-fade-in" role="alert">
             <span>⚠️</span>
-            <span>{guestbookError}</span>
+            <span>{guestbookError || (language === "vi"
+              ? "Chưa kết nối được sổ lưu bút chung. Đang hiển thị bản đã lưu gần nhất."
+              : "The shared guestbook is temporarily unavailable. Showing the latest saved copy.")}</span>
           </div>
         )}
 
@@ -279,12 +249,10 @@ export function GalleryWishesMarquee({
           language={language}
           entries={entries}
           onClose={() => setIsCinemaOpen(false)}
-          onAddEntry={async (newEntry) => {
-            const saved = await createGuestbookEntry(newEntry);
-            setEntries((current) => [saved, ...current.filter((entry) => entry.id !== saved.id)]);
-          }}
+          onAddEntry={addEntry}
           muted={muted}
           volume={volume}
+          returnSoundtrack="ending"
         />
       )}
 
